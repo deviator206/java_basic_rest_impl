@@ -22,3 +22,9 @@ http://localhost:8080/vogellaRestImpl/rest/hello/getstring
 http://localhost:8080/vogellaRestImpl/rest/hello/getxml
 http://localhost:8080/vogellaRestImpl/rest/hello/getjson
 	
+###
+>support for json input added
+http://localhost:8080/vogellaRestImpl/rest/hello/jsoninput
+{"name":"Send Name"}
+POST
+
