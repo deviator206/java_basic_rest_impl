@@ -11,16 +11,33 @@ import com.main.models.UserInfo;
 @Path("/hello")
 public class HelloService {
 	
-	/*@GET
+	/*
+	 * PLAIN STRING RETURN
+	 */
+	@GET
+	@Path("/getstring")
 	@Produces(MediaType.TEXT_PLAIN)
 	 public String sayPlainTextHello() {
 	    return "Hello Jersey";
 	  }
-	  */
+	
+	/*
+	 * PLAIN XML RETURN
+	 */
+	@GET
+	@Path("/getxml")
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	 public UserInfo sayPlainXMLHello() {
+	    UserInfo userInfo = new UserInfo();
+	    userInfo.setId(1);
+	    userInfo.setName("SANDEEP");
+	    return userInfo;
+	  }
 	
 	@GET
-	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	 public UserInfo sayPlainTextHello() {
+	@Path("/getjson")
+	@Produces({MediaType.APPLICATION_JSON })
+	 public UserInfo sayPlainJSONHello() {
 	    UserInfo userInfo = new UserInfo();
 	    userInfo.setId(1);
 	    userInfo.setName("SANDEEP");
