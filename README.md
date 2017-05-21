@@ -28,3 +28,21 @@ http://localhost:8080/vogellaRestImpl/rest/hello/jsoninput
 {"name":"Send Name"}
 POST
 
+###
+crud operations
+
+DB creation
+
+create table validEmporiumUser (empId int NOT NULL AUTO_INCREMENT , empName varchar(20), empPassword varchar(20),empRole varchar(20), primary key (empId));
+
+alter table validEmporiumUser1 modify column empId int NOT NULL AUTO_INCREMENT;
+
+select * from validEmporiumUser;
+
+insert into validEmporiumUser (empName, empPassword) values ('admin','admin','ADMIN')
+insert into validEmporiumUser (empName, empPassword) values ('tech','tech','TECH')
+
+select * from validEmporiumUser;
+
+
+connecting to localhost:3306

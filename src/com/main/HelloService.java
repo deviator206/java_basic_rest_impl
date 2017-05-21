@@ -10,6 +10,7 @@ import javax.ws.rs.core.MediaType;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
+import com.main.impl.LoginServiceImpl;
 import com.main.models.UserInfo;
 
 //Sets the path to base URL + /hello
@@ -23,6 +24,8 @@ public class HelloService {
 	@Path("/getstring")
 	@Produces(MediaType.TEXT_PLAIN)
 	 public String sayPlainTextHello() {
+		//LoginServiceImpl lo = new LoginServiceImpl();
+		//lo.getConnection();
 	    return "Hello Jersey";
 	  }
 	
