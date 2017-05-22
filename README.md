@@ -46,3 +46,31 @@ select * from validEmporiumUser;
 
 
 connecting to localhost:3306
+
+### 
+creation of tables
+
+// CUSTOMER INFO
+create table EMP_CUSTOMER_TABLE (id int NOT NULL AUTO_INCREMENT, name varchar(20), address varchar(30), phone int,primary key (id));
+alter table EMP_CUSTOMER_TABLE modify column phone varchar(15);
+alter table EMP_CUSTOMER_TABLE modify column address varchar(50);
+insert into EMP_CUSTOMER_TABLE (name, address,phone) values ('sachin','pune kp road','9765896417');
+
+insert into EMP_CUSTOMER_TABLE (name, address,phone) values ('mohan','pune DP road','8865896417');
+select * from EMP_CUSTOMER_TABLE;
+
+select * from EMP_CUSTOMER_TABLE where name LIKE 'an%' OR name LIKE '%an' OR name LIKE '%n%';
+
+// PRODUCT
+create table EMP_PRODUCT_TABLE (id int NOT NULL AUTO_INCREMENT, brandName varchar(20), brandModel varchar(30), serialNumber varchar(20), primary key (id));
+insert into EMP_PRODUCT_TABLE (brandName, brandModel,serialNumber) values ('CanonEOs450','s70000','1001505887832');
+select * from EMP_PRODUCT_TABLE
+
+............
+REST implementation
+GET : http://localhost:8080/vogellaRestImpl/rest/customer/serach-customer?text=a
+POST : http://localhost:8080/vogellaRestImpl/rest/customer/create 
+{"customerName":"tech bhai","customerAddress":"tech1 ka address nahi malum","customerPhone":"87654433212"}
+
+
+
