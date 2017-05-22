@@ -73,4 +73,73 @@ POST : http://localhost:8080/vogellaRestImpl/rest/customer/create
 {"customerName":"tech bhai","customerAddress":"tech1 ka address nahi malum","customerPhone":"87654433212"}
 
 
+// Creation of Product REST
+
+// PRODUCT
+create table EMP_PRODUCT_TABLE (id int NOT NULL AUTO_INCREMENT, brandName varchar(20), brandModel varchar(30), serialNumber varchar(20), primary key (id));
+insert into EMP_PRODUCT_TABLE (brandName, brandModel,serialNumber,price) values ('NIKON','ssd20000','1001505887832',12899);
+
+alter table EMP_PRODUCT_TABLE add column price int(30);
+
+alter table EMP_PRODUCT_TABLE add column tax_type varchar(30);
+select * from EMP_PRODUCT_TABLE
+
+
+create implementation 
+POST
+URL : http://localhost:8080/vogellaRestImpl/rest/product/create
+Content-Type: application/json
+
+payload :
+{"productList" : [
+  
+  			{"isNew":true,"brandName":"Canon-1","brandModel":"s7001","serialNumber":"X99999","price":9999,"taxType":"6"},
+{"isNew":true,"brandName":"Canon-2","brandModel":"s7002","serialNumber":"X99990","price":29999,"taxType":"13.5"},
+  {"isNew":true,"brandName":"Canon-3","brandModel":"s7003","serialNumber":"X99989","price":19999,"taxType":"0"}
+]}
+
+OUTPUT
+{
+"status": true,
+"counterValue": 3
+}
+
+
+//search product
+http://localhost:8080/vogellaRestImpl/rest/product/search-product?text=nik&type=NAME
+{
+  "status": true,
+  "singleProductModelList": [
+    {
+      "id": 4,
+      "name": "Canon-1",
+      "model": "s7001",
+      "sn": "X99999",
+      "price": 9999,
+      "taxType": "6"
+    },
+    {
+      "id": 5,
+      "name": "Canon-2",
+      "model": "s7002",
+      "sn": "X99990",
+      "price": 29999,
+      "taxType": "13.5"
+    },
+    {
+      "id": 6,
+      "name": "Canon-3",
+      "model": "s7003",
+      "sn": "X99989",
+      "price": 19999,
+      "taxType": "0"
+    }
+  ]
+}
+
+
+
+type=NAME
+type=MODEL
+type=SN
 

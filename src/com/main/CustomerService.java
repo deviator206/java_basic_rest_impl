@@ -36,7 +36,7 @@ public class CustomerService {
 	@Path("serach-customer")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public CustomerSearchResponse createCustomer(@QueryParam("text") String queryText) throws JSONException{
+	public CustomerSearchResponse searchCustomer(@QueryParam("text") String queryText) throws JSONException{
 		CustomerSearchImpl customerSearchImpl = new CustomerSearchImpl();
 		customerSearchImpl.setQueryText(queryText);
 		customerSearchImpl.execute();
