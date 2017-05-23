@@ -38,6 +38,7 @@ public class GenerateInvoiceService {
 			if (salesServiceResponse.getStatus()){
 				salesServiceResponse.setInvoiceId(invoiceInformation.get("invoice"));
 				salesServiceResponse.setVatTinNumber(invoiceInformation.get("vatTinNumber"));
+				
 			}
 		}
 		return salesServiceResponse;

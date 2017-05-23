@@ -205,11 +205,11 @@ payload :
      "bankName":"PakBank"
 	}
 }
-
-
 -----
 output:
 {
-"status": true,
-"counterValue": 0
+  "status": true,
+  "invoiceId": "CE/2017-18/26",
+  "vatTinNumber": "2763039355V",
+  "counterValue": 2
 }
