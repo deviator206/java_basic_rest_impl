@@ -143,3 +143,73 @@ type=NAME
 type=MODEL
 type=SN
 
+
+-------------
+git delete FOLDER
+git rm -r <FOLDER_NAME>
+--------------
+
+GENERATE INVOICE
+create table SALES_INVOICE_TABLE (id int(30) AUTO_INCREMENT NOT NULL ,actualInvoiceId varchar(60) , defaultValue varchar(60) default 'CE/2017-18/', primary key(id));
+alter table SALES_INVOICE_TABLE ADD UNIQUE(actualInvoiceId);
+insert into SALES_INVOICE_TABLE (actualInvoiceId) values ('CE/2017-18/1')
+insert into SALES_INVOICE_TABLE (actualInvoiceId) values ('CE/2017-18/2')
+select * from SALES_INVOICE_TABLE;
+
+select defaultValue from SALES_INVOICE_TABLE;
+select count(*) from SALES_INVOICE_TABLE
+
+
+ADD PAYMENT FOR INVOICE
+
+//table for payment type
+create table PAYMENT_DETAILS_TABLE(id int(40) AUTO_INCREMENT NOT NULL,cash varchar(60), cheqNo varchar(60),bankName varchar(60),ifscCode varchar(60),cheqDate varchar(60),accountNo varchar(60),cardNo varchar(60),primary key(id))
+alter table PAYMENT_DETAILS_TABLE add column invoice_id varchar(60)
+alter table PAYMENT_DETAILS_TABLE add column invoice_tin varchar(60)
+
+
+insert into PAYMENT_DETAILS_TABLE(cash,invoice_id,invoice_tin) values ('5000','CE/2017-18/6','2763039355V');
+insert into PAYMENT_DETAILS_TABLE(cheqNo,cheqDate,bankName,invoice_id,invoice_tin) values ('345678093218','12/6/2017','SBI','CE/2017-18/6','2763039355V');
+insert into PAYMENT_DETAILS_TABLE(cardNo,bankName,invoice_id,invoice_tin) values ('345678093234324823418','Standarad Chartered Bank','CE/2017-18/6','2763039355V');
+select * from PAYMENT_DETAILS_TABLE
+
+
+
+type: CASH | CARD | CHEQ
+-cash
+-cardNumber
+-bankName
+-cheqNo
+-cheqDate
+
+REST IMPLEMENTATION
+http://localhost:8080/vogellaRestImpl/rest/invoice/sales
+payload :
+{"paymentInfo" :{
+	"type":"CASH",
+     "cash":"6000"
+	}
+}
+
+{"paymentInfo" :{
+	"type":"CARD",
+     "cardNumber":"6000-1290-1290-1290",
+     "bankName":"Satin Bank man"
+	}
+}
+
+{"paymentInfo" :{
+	"type":"CHEQ",
+     "cheqNo":"298611",
+     "cheqDate":"23/6/2017",
+     "bankName":"PakBank"
+	}
+}
+
+
+-----
+output:
+{
+"status": true,
+"counterValue": 0
+}
