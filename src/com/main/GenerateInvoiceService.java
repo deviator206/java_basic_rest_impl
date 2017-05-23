@@ -8,12 +8,13 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
 import com.main.impl.GenerateInvoiceOnlyImpl;
 import com.main.impl.PaymentDetailsImpl;
-import com.main.models.ProductServiceResponse;
+import com.main.models.SalesServiceResponse;
 
 @Path("/invoice/")
 public class GenerateInvoiceService {
@@ -22,22 +23,24 @@ public class GenerateInvoiceService {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public ProductServiceResponse createSalesInvoice(JSONObject orderInfo) throws JSONException{
+	public SalesServiceResponse createSalesInvoice(JSONObject orderInfo) throws JSONException{
 		GenerateInvoiceOnlyImpl generateInvoiceOnlyImpl = new GenerateInvoiceOnlyImpl();
 		HashMap<String, String> invoiceInformation = generateInvoiceOnlyImpl.getNewInvoice();
-		ProductServiceResponse productServiceResponse = new ProductServiceResponse();
-		productServiceResponse.setStatus(false);
+		SalesServiceResponse salesServiceResponse = new SalesServiceResponse();
+		salesServiceResponse.setStatus(false);
 		if (invoiceInformation.size() > 0){
 			System.out.println(invoiceInformation);
 			PaymentDetailsImpl paymentDetailsImpl = new PaymentDetailsImpl();
-			paymentDetailsImpl.setPaymentInfo(orderInfo.getJSONObject("paymentInfo"));
 			paymentDetailsImpl.setInvoiceInfo(invoiceInformation);
-			boolean success  = paymentDetailsImpl.updatePaymentDetails();
-			if (success){
-				productServiceResponse.setStatus(success);
+			
+			paymentDetailsImpl.setPaymentInfo(orderInfo.getJSONArray("paymentInfo"));
+			salesServiceResponse = paymentDetailsImpl.updatePaymentDetails();
+			if (salesServiceResponse.getStatus()){
+				salesServiceResponse.setInvoiceId(invoiceInformation.get("invoice"));
+				salesServiceResponse.setVatTinNumber(invoiceInformation.get("vatTinNumber"));
 			}
 		}
-		return productServiceResponse;
+		return salesServiceResponse;
 	}
 	
 	
@@ -50,6 +53,7 @@ public class GenerateInvoiceService {
 		JSONObject orderInfo = new JSONObject();
 		
 		try {
+			JSONArray js = new JSONArray();
 			JSONObject paymentInfo = new JSONObject();
 			//paymentInfo.put("type", "CASH");
 			//paymentInfo.put("cash", "7899");
@@ -63,13 +67,12 @@ public class GenerateInvoiceService {
 			paymentInfo.put("cheqNo", "989898988");
 			paymentInfo.put("cheqDate", "23/23/1230");
 			paymentInfo.put("bankName", "JANA GANA MANA");
-	
-			
-			orderInfo.put("paymentInfo", paymentInfo);
-			paymentDetailsImpl.setPaymentInfo(orderInfo.getJSONObject("paymentInfo"));
+			js.put(paymentInfo);
+			orderInfo.put("paymentInfo", js);
+			paymentDetailsImpl.setPaymentInfo(orderInfo.getJSONArray("paymentInfo"));
 			paymentDetailsImpl.setInvoiceInfo(invoiceInformation);
-			boolean success  = paymentDetailsImpl.updatePaymentDetails();
-			System.out.println(success);
+			SalesServiceResponse  ps = paymentDetailsImpl.updatePaymentDetails();
+			System.out.println(ps);
 			
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block

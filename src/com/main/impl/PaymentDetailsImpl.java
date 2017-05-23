@@ -5,12 +5,17 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 
+import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+
+import com.main.models.ProductServiceResponse;
+import com.main.models.SalesServiceResponse;
 
 public class PaymentDetailsImpl extends ServiceBase{
 	
 	private JSONObject paymentInfo;
+	private JSONArray paymentInfoList;
 	private HashMap<String, String> invoiceInformation;
 	
 	private String COL_CASH = "cash";
@@ -22,8 +27,8 @@ public class PaymentDetailsImpl extends ServiceBase{
 	private String COL_CHEQ_NO ="cheqNo";
 	private String COL_CHEQ_DATE= "cheqDate";
 	
-	public void setPaymentInfo(JSONObject jsonObject) {
-		this.paymentInfo = jsonObject;
+	public void setPaymentInfo(JSONArray jsonObject) {
+		this.paymentInfoList = jsonObject;
 		
 	}
 
@@ -32,15 +37,30 @@ public class PaymentDetailsImpl extends ServiceBase{
 		
 	}
 
-	public boolean updatePaymentDetails() {
+	public SalesServiceResponse updatePaymentDetails() {
+		SalesServiceResponse ps= new SalesServiceResponse();
 		boolean success =false;
+		int count = 0;
 		this.getConnection();
 		try {
-			PreparedStatement preparedStmt =  getQueryBasedOnInput();
-		    int count = preparedStmt.executeUpdate();
-		    if (count > 0){
-		    	success = true;
-		    }
+			
+			for (int i=0;i<this.paymentInfoList.length();i++){
+				this.paymentInfo = this.paymentInfoList.getJSONObject(i);
+				PreparedStatement preparedStmt =  getQueryBasedOnInput();
+			    int UpdatedCount = preparedStmt.executeUpdate();
+			    if (UpdatedCount > 0){
+			    	count++;
+			    }
+			}
+			System.out.println("COMPARING");
+			System.out.print(count);
+			System.out.print("-------");
+			System.out.print(this.paymentInfoList.length());
+			int len = this.paymentInfoList.length();
+			if (count == len){
+				success = true;
+			}
+			
 		    this.dbConnection.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -50,9 +70,9 @@ public class PaymentDetailsImpl extends ServiceBase{
 			e.printStackTrace();
 		}
 
-		
-		
-		return success;
+		ps.setStatus(success);
+		ps.setCounter(count);
+		return ps;
 	}
 
 	private PreparedStatement getQueryBasedOnInput() throws JSONException, SQLException {
