@@ -1,6 +1,10 @@
 package com.main;
 
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -12,6 +16,9 @@ import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
+import com.main.impl.CreateNewSaleEntryServiceImpl;
+import com.main.impl.CreateProductServiceImpl;
+import com.main.impl.CustomerServiceImpl;
 import com.main.impl.GenerateInvoiceOnlyImpl;
 import com.main.impl.PaymentDetailsImpl;
 import com.main.models.SalesServiceResponse;
@@ -36,8 +43,92 @@ public class GenerateInvoiceService {
 			paymentDetailsImpl.setPaymentInfo(orderInfo.getJSONArray("paymentInfo"));
 			salesServiceResponse = paymentDetailsImpl.updatePaymentDetails();
 			if (salesServiceResponse.getStatus()){
+				
+				JSONObject customerInformation = orderInfo.getJSONObject("customerInfo");
+				int customerValidID ;
+				if (customerInformation.getString("id") != null && !customerInformation.getString("id").equals("")){
+					
+					//CUSTOMER EXIST
+					// add it to table 
+					//preseve this customer Id to use it for later case
+					customerValidID = Integer.parseInt(customerInformation.getString("id"));
+					
+				} else {
+					// NEW CUSTOMER
+					CustomerServiceImpl customerServiceImpl = new CustomerServiceImpl();
+					customerServiceImpl.setUserName(customerInformation.getString("name"));
+					customerServiceImpl.setUserAddress(customerInformation.getString("address"));
+					customerServiceImpl.setUserPhone(customerInformation.getString("phone"));
+					customerServiceImpl.execute();
+					customerValidID=  customerServiceImpl.getCustomerCreationResponse().getId();
+				}
+				
+				
+				JSONArray productList = orderInfo.getJSONArray("productInfo");
+				for (int j =0;j<productList.length();j++){
+					JSONObject productInfo = productList.getJSONObject(j);
+					CreateNewSaleEntryServiceImpl createNewSaleEntryServiceImpl =  new CreateNewSaleEntryServiceImpl();
+					if (productInfo.getString("id") != null && !productInfo.getString("id").equals("")){
+						createNewSaleEntryServiceImpl.setProductId(productInfo.getString("id"));
+					}else {
+						JSONArray newProductList = new JSONArray();
+						productInfo.put("isNew", true);
+						newProductList.put(productInfo);
+						CreateProductServiceImpl createProductServiceImpl =  new CreateProductServiceImpl();
+						createProductServiceImpl.setProductList(newProductList);
+						createProductServiceImpl.executeCreation();
+						
+						createNewSaleEntryServiceImpl.setProductId(createProductServiceImpl.getResponse().getCreatedProductList().get(0));
+					}
+					createNewSaleEntryServiceImpl.setCustomerId(customerValidID);
+					createNewSaleEntryServiceImpl.setOrderDate(Timestamp.valueOf(productInfo.getString("orderDate")));
+					createNewSaleEntryServiceImpl.setInvoiceInformation(invoiceInformation.get("invoice"),invoiceInformation.get("vatTinNumber"));
+					createNewSaleEntryServiceImpl.setQuantityInfo(productInfo.getLong("quantity"),productInfo.getLong("price"),productInfo.getLong("totalPrice"));
+					createNewSaleEntryServiceImpl.setTaxInformation(productInfo.getString("taxType"),productInfo.getLong("taxValue"),productInfo.getLong("taxAmmount"),productInfo.getString("taxRate"));
+					createNewSaleEntryServiceImpl.setGrandTotal(productInfo.getLong("grandTotal"));
+					createNewSaleEntryServiceImpl.executeExistingProduct();
+				}
+				
+				
+				/*
+				 * 
+				 *
+				JSONArray newProductList = new JSONArray();
+				List<String> oldProductIdList = new ArrayList();
+				for (int j =0;j<productList.length();j++){
+					JSONObject productInfo = productList.getJSONObject(j);
+					if (productInfo.getString("id") != null && !productInfo.getString("id").equals("")){
+						// existing product
+						oldProductIdList.add(productInfo.getString("id"));
+					}else {
+						//new product
+						productInfo.put("isNew", true);
+						newProductList.put(productInfo);
+					}
+				}
+				
+				List<String> newList = new ArrayList<String>(oldProductIdList);
+				
+				
+				if(newProductList.length() > 0) {
+					//create ProductList for new products
+					CreateProductServiceImpl createProductServiceImpl =  new CreateProductServiceImpl();
+					createProductServiceImpl.setProductList(newProductList);
+					createProductServiceImpl.executeCreation();
+					salesServiceResponse.setProductServiceResponse(createProductServiceImpl.getResponse().getCreatedProductList());
+					newList.addAll(salesServiceResponse.getProductServiceResponse());
+				}
+				
+				*/
+				
+				
+				
 				salesServiceResponse.setInvoiceId(invoiceInformation.get("invoice"));
 				salesServiceResponse.setVatTinNumber(invoiceInformation.get("vatTinNumber"));
+			
+				
+				
+				
 				
 			}
 		}
@@ -46,40 +137,10 @@ public class GenerateInvoiceService {
 	
 	
 	public static void main(String[] args) {
-		GenerateInvoiceOnlyImpl generateInvoiceOnlyImpl = new GenerateInvoiceOnlyImpl();
-		HashMap<String, String> invoiceInformation = generateInvoiceOnlyImpl.getNewInvoice();
-		System.out.println(invoiceInformation);
+		String tx = "2017-05-25 04:38:25";
+		Timestamp ts = Timestamp.valueOf(tx);
+		System.out.println(ts);
 		
-		PaymentDetailsImpl paymentDetailsImpl = new PaymentDetailsImpl();
-		JSONObject orderInfo = new JSONObject();
-		
-		try {
-			JSONArray js = new JSONArray();
-			JSONObject paymentInfo = new JSONObject();
-			//paymentInfo.put("type", "CASH");
-			//paymentInfo.put("cash", "7899");
-			
-			//paymentInfo.put("type", "CARD");
-			//paymentInfo.put("cardNumber", "7899213891321239123");
-			//paymentInfo.put("bankName", "State Bank Of Baroda and standarad chartered bank");
-			
-	
-			paymentInfo.put("type", "CHEQ");
-			paymentInfo.put("cheqNo", "989898988");
-			paymentInfo.put("cheqDate", "23/23/1230");
-			paymentInfo.put("bankName", "JANA GANA MANA");
-			js.put(paymentInfo);
-			orderInfo.put("paymentInfo", js);
-			paymentDetailsImpl.setPaymentInfo(orderInfo.getJSONArray("paymentInfo"));
-			paymentDetailsImpl.setInvoiceInfo(invoiceInformation);
-			SalesServiceResponse  ps = paymentDetailsImpl.updatePaymentDetails();
-			System.out.println(ps);
-			
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
+			}
 	
 }

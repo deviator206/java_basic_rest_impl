@@ -195,6 +195,7 @@ payload :
 	"type":"CARD",
      "cardNumber":"6000-1290-1290-1290",
      "bankName":"Satin Bank man"
+     "amount":1000
 	}
 }
 
@@ -212,4 +213,158 @@ output:
   "invoiceId": "CE/2017-18/26",
   "vatTinNumber": "2763039355V",
   "counterValue": 2
+}
+
+
+........
+
+final changed DB
+create table validEmporiumUser (empId int NOT NULL AUTO_INCREMENT , empName varchar(20), empPassword varchar(20),empRole varchar(20), primary key (empId));
+
+alter table validEmporiumUser1 modify column empId int NOT NULL AUTO_INCREMENT;
+
+select * from validEmporiumUser;
+
+insert into validEmporiumUser (empName, empPassword) values ('admin','admin','ADMIN')
+insert into validEmporiumUser (empName, empPassword) values ('tech','tech','TECH')
+
+select * from validEmporiumUser;
+
+
+// CUSTOMER INFO
+create table EMP_CUSTOMER_TABLE (id int NOT NULL AUTO_INCREMENT, name varchar(20), address varchar(30), phone int,primary key (id));
+alter table EMP_CUSTOMER_TABLE modify column phone varchar(15);
+alter table EMP_CUSTOMER_TABLE modify column address varchar(50);
+insert into EMP_CUSTOMER_TABLE (name, address,phone) values ('sachin','pune kp road','9765896417');
+
+insert into EMP_CUSTOMER_TABLE (name, address,phone) values ('mohan','pune DP road','8865896417');
+select * from EMP_CUSTOMER_TABLE;
+
+select * from EMP_CUSTOMER_TABLE where name LIKE 'an%' OR name LIKE '%an' OR name LIKE '%n%';
+
+// PRODUCT
+create table EMP_PRODUCT_TABLE (id int NOT NULL AUTO_INCREMENT, brandName varchar(20), brandModel varchar(30), serialNumber varchar(20), primary key (id));
+insert into EMP_PRODUCT_TABLE (brandName, brandModel,serialNumber,price) values ('NIKON','ssd20000','1001505887832',12899);
+
+alter table EMP_PRODUCT_TABLE add column price int(30);
+
+alter table EMP_PRODUCT_TABLE add column tax_type varchar(30);
+
+select * from EMP_PRODUCT_TABLE where id in (1,4,6);
+
+
+//
+Generate Invoice- so Invoice table.
+create table SALES_INVOICE_TABLE (id int(30) AUTO_INCREMENT NOT NULL ,actualInvoiceId varchar(60) , defaultValue varchar(60) default 'CE/2017-18/', primary key(id));
+alter table SALES_INVOICE_TABLE ADD UNIQUE(actualInvoiceId);
+insert into SALES_INVOICE_TABLE (actualInvoiceId) values ('CE/2017-18/1')
+insert into SALES_INVOICE_TABLE (actualInvoiceId) values ('CE/2017-18/2')
+select * from SALES_INVOICE_TABLE;
+
+select defaultValue from SALES_INVOICE_TABLE;
+select count(*) from SALES_INVOICE_TABLE
+
+alter table SALES_INVOICE_TABLE add column vat_tin_number varchar(60) default'2763039355V';
+select defaultValue,vat_tin_number from SALES_INVOICE_TABLE;
+
+
+//table for payment type
+create table PAYMENT_DETAILS_TABLE(id int(40) AUTO_INCREMENT NOT NULL,cash varchar(60), cheqNo varchar(60),bankName varchar(60),ifscCode varchar(60),cheqDate varchar(60),accountNo varchar(60),cardNo varchar(60),primary key(id))
+alter table PAYMENT_DETAILS_TABLE add column invoice_id varchar(60)
+alter table PAYMENT_DETAILS_TABLE add column invoice_tin varchar(60)
+alter table PAYMENT_DETAILS_TABLE add column amount varchar(60)
+alter table PAYMENT_DETAILS_TABLE modify column amount FLOAT(10,2)
+
+insert into PAYMENT_DETAILS_TABLE(cash,invoice_id,invoice_tin) values ('5000','CE/2017-18/6','2763039355V');
+insert into PAYMENT_DETAILS_TABLE(cheqNo,cheqDate,bankName,invoice_id,invoice_tin) values ('345678093218','12/6/2017','SBI','CE/2017-18/6','2763039355V');
+insert into PAYMENT_DETAILS_TABLE(cardNo,bankName,invoice_id,invoice_tin) values ('345678093234324823418','Standarad Chartered Bank','CE/2017-18/6','2763039355V');
+select * from PAYMENT_DETAILS_TABLE
+
+
+//Sales Table with order information
+create table SALES_ORDER_TABLE (
+sale_id int(30) not null auto_increment,
+invoice_id varchar(60) not null,
+customer_id varchar(60) not null, 
+product_id varchar(60) not null,
+product_unit_price float(10,2) not null, 
+product_qty float(10,2) not null,
+product_price_with_qty float(10,2) not null,
+tax_type varchar(60) ,
+tax_rate varchar(60),
+order_date TIMESTAMP default CURRENT_TIMESTAMP ,
+tax_amount float(10,2) ,
+total_amount float(10,2) not null, primary key(sale_id))
+
+
+alter table SALES_ORDER_TABLE add column tax_value float(10,2)
+select * from SALES_ORDER_TABLE
+
+select * from emp_customer_table
+select * from emp_product_table
+
+
+select * from SALES_ORDER_TABLE
+-------------------
+
+REST:
+POST:
+http://localhost:8080/vogellaRestImpl/rest/invoice/sales
+
+
+input:
+{
+  "paymentInfo": [
+    {
+      "amount": 76393.98,
+      "type": "CASH"
+    }
+  ],
+  "customerInfo": {
+    "id":"5"
+  },
+  "productInfo": [
+    {
+      "id":"2",
+      "name": "CanonEOs450",
+      "model": "s70000",
+      "sn": "1001505887832",
+      "quantity": 1,
+      "price": 15669,
+      "totalPrice": 15669,
+	  
+      "taxType": "VAT-1",
+      "taxValue": 13.5,
+      "taxAmmount": 2115.315,
+      "grandTotal": 17784.315,
+      "taxRate": 13.5,
+      "orderDate":"2017-05-25 04:38:25"
+    },
+    {
+      "id":"",
+      "name": "NIKON",
+      "model": "ssd20000",
+      "sn": "1001505887832",
+      "quantity": 3,
+      "price": 12899,
+      "totalPrice": 38697,
+      "taxType": "VAT-2",
+      "taxValue": 5.5,
+      "taxAmmount": 2128.335,
+      "grandTotal": 40825.335,
+      "taxRate": 5.5,
+      "orderDate":"2017-05-25 04:38:25"
+    }
+  ]
+}
+
+output:
+{
+  "status": true,
+  "counter": 1,
+  "invoiceId": "CE/2017-18/47",
+  "vatTinNumber": "2763039355V",
+  "customerServiceResponse": null,
+  "counterValue": 1,
+  "productServiceResponse": null
 }

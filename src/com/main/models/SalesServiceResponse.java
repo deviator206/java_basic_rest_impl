@@ -1,14 +1,43 @@
 package com.main.models;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class SalesServiceResponse extends MainResponse{
 	
 	private int counter =0;
 	private String invoiceId ="";
 	private String vatTinNumber ="";
+	private CustomerServiceResponse customerServiceResponse;
+	private List<String> newProductServiceResponse;
 	
 	
+	
+	public List<String> getProductServiceResponse() {
+		return newProductServiceResponse;
+	}
+
+
+	public void setProductServiceResponse(List<String> list) {
+		this.newProductServiceResponse = list;
+	}
+
+
+	public CustomerServiceResponse getCustomerServiceResponse() {
+		return customerServiceResponse;
+	}
+
+
+	public void setCustomerServiceResponse(CustomerServiceResponse customerServiceResponse) {
+		this.customerServiceResponse = customerServiceResponse;
+	}
+
+
+	public int getCounter() {
+		return counter;
+	}
+
+
 	public String getVatTinNumber() {
 		return vatTinNumber;
 	}

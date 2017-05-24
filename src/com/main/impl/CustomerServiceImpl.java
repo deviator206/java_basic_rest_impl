@@ -43,7 +43,7 @@ public class CustomerServiceImpl  extends ServiceBase {
 			String query = " insert into "+CUSTOMER_TABLE+" ("+this.COL_USER_NAME+", "+this.COL_USER_ADDRESS+","+this.COL_USER_PHONE+")"
 			        + " values (?, ?, ?)";
 			
-			PreparedStatement preparedStmt =  this.dbConnection.prepareStatement(query);
+			PreparedStatement preparedStmt =  this.dbConnection.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
 		    preparedStmt.setString (1, this.userName);
 		    preparedStmt.setString (2, this.userAddress);
 		    preparedStmt.setString   (3, this.userPhone);
@@ -53,10 +53,16 @@ public class CustomerServiceImpl  extends ServiceBase {
 		    	customerServiceResponse.setStatus(true);
 		    }
 		    
-		    
+		    customerServiceResponse.setName(this.userName);
+		    customerServiceResponse.setAddress(this.userAddress);
+		    customerServiceResponse.setPhone(this.userPhone);
+		    ResultSet rs = preparedStmt.getGeneratedKeys();
+		    if (rs != null && rs.next()) {
+		    	customerServiceResponse.setId(rs.getInt(1));
+		    	
+		    }
 		    System.out.println(count);
-		    
-			this.dbConnection.close();  
+		    this.dbConnection.close();  
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
