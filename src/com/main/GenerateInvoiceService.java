@@ -53,6 +53,13 @@ public class GenerateInvoiceService {
 					//preseve this customer Id to use it for later case
 					customerValidID = Integer.parseInt(customerInformation.getString("id"));
 					
+					CustomerServiceImpl customerServiceUpdateImpl = new CustomerServiceImpl();
+					customerServiceUpdateImpl.setUserName(customerInformation.getString("name"));
+					customerServiceUpdateImpl.setUserAddress(customerInformation.getString("address"));
+					customerServiceUpdateImpl.setUserPhone(customerInformation.getString("phone"));
+					customerServiceUpdateImpl.setUserID(customerValidID);
+					customerServiceUpdateImpl.executeUpdateCustomer();
+					
 				} else {
 					// NEW CUSTOMER
 					CustomerServiceImpl customerServiceImpl = new CustomerServiceImpl();
