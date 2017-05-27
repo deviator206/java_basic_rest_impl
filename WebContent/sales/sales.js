@@ -87,10 +87,7 @@ angular.module('salesApp.sales', ['ngRoute' , 'smart-table', 'ui.bootstrap'])
             amount = parseFloat(amount,10);
             amount = amount.toFixed(decimalPosition);
             amount = parseFloat(amount,10);
-        }else{
-            debugger;    
         }
-        
         return amount;
     }
     
@@ -382,7 +379,8 @@ angular.module('salesApp.sales', ['ngRoute' , 'smart-table', 'ui.bootstrap'])
         modalInstance.result.then(function (selectedItem) {
           //$scope.selected = selectedItem;
         }, function (a,b,c) {
-          $log.info('Modal dismissed at: ' + new Date());
+        	$log.info('Modal dismissed at: ' + new Date());
+          	window.location.href="index.html";
         });
   };
     
