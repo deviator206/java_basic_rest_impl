@@ -3,11 +3,8 @@
 // Declare app level module which depends on views, and components
 angular.module('salesApp', [
   'ngRoute',
-  'salesApp.view1',
-  'salesApp.view2',
-  'salesApp.sales',
-  'salesApp.repair',
-  'salesApp.report',
+  'salesApp.tech',
+  'salesApp.completed',
   'salesApp.version',
   'salesApp.date',
   'salesApp.modal',
@@ -15,11 +12,7 @@ angular.module('salesApp', [
   'smart-table'
 ]).
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
+	alert("HELLO");
   $locationProvider.hashPrefix('!');
-  $routeProvider.otherwise({redirectTo: '/sales'});
-}]).
-
-controller("HeaderController",['$scope',function($scope){
-	
-	$scope.myC= "LOL";
+  $routeProvider.otherwise({redirectTo: '/myjobs'});
 }]);
