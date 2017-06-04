@@ -15,6 +15,16 @@
     <link rel="stylesheet" href="app.css">
     <script src="Vendor/html5-boilerplate/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
     <style>
+    
+    @media print{
+        .no-border {
+            border:0px !important;
+        }
+        .no-border tr, .no-border td, .no-border th{
+            border:none !important;
+        }
+    
+    }
         .modal-lg{
             width:95%;
         }
@@ -28,12 +38,12 @@
             margin-bottom:5px;
         }
         .invoice-panel-padding{
-            padding:5px !important;
+            padding:2px !important;
         }
         .no-border {
             border:0px !important;
         }
-        .no-border tr, .no-border td{
+        .no-border tr, .no-border td, .no-border th{
             border:none !important;
         }
         .table-bordered>thead>tr>th, .table-bordered>thead>tr>td{
@@ -45,6 +55,22 @@
         }        
         .table-condensed>thead>tr>td, .table-condensed>tbody>tr>td, .table-condensed>tfoot>tr>td{
             padding: 2px !important;
+        }
+        address {
+            margin-bottom:0px;
+        }
+        h4, .h4, h5, .h5, h6, .h6 {
+            margin-top: 1px;
+            margin-bottom: 5px;
+        }        
+        .panel{
+            margin-bottom:2px;
+        }
+        .label{
+            margin-bottom:0px;
+        }
+        .text-center{
+            text-align:center;
         }
     </style>
 </head>

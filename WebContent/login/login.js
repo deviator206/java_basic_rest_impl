@@ -8,8 +8,10 @@ angular.module('salesApp', []).controller('loginController', ['$scope', '$http',
 		$http.defaults.headers.post["Content-Type"] = "application/json";
 		
 		$http({
-				method: "POST",
-				  url: 'rest/login?v='+(Math.random()),
+				//method: "POST",
+				method: "GET",
+				//  url: 'rest/login?v='+(Math.random()),
+				  url: 'login/login.json?v='+(Math.random()),
 				  data:{"userName":$scope.userNameModel,"password":$scope.userPasswordModel}
 				}).then(function successCallback(response) {
 				    // this callback will be called asynchronously

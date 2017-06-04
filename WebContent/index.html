@@ -15,6 +15,32 @@
     <link rel="stylesheet" href="app.css">
     <script src="Vendor/html5-boilerplate/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
     <style>
+      .in-table-data {
+       font-weight: bold;
+      }
+        .nav-tabs{
+          background-color:#efefef;
+        }
+        .tab-content{
+            background-color:#f1ff1;
+            border-bottom:1px solid #ddd;
+            border-left:1px solid #ddd;
+            border-right:1px solid #ddd;
+        }
+        .nav-tabs > li > a:hover{
+            border: medium none;
+            border-radius: 0;
+            color:#000;
+        }
+        .nav-tabs {
+            background-color: #efefef !important;
+        }
+
+        .nav>li>a {
+            background-color: #cccc !important;
+            color: #000;
+        }
+    
         .modal-lg{
             width:95%;
         }
@@ -36,56 +62,84 @@
             background-color: #f9f2f4;
             border-radius: 4px;        
         }
+        .form-group {
+            margin-bottom: 10px;
+        }
+        hr{
+            margin-bottom:15px;
+        }
+        .width-97{
+            width:97%;
+        }
+        
     </style>
     <script>
         function openInNewTab1(url) {
           var win = window.open(url, '_blank');
           win.focus();
         }   
-        
-
         function openInNewTab2(url) {
         	sessionStorage.setItem("userInfoRole","");
         	var win = window.open("login.html", '_self');
           	win.focus();
         }   
+      
         window.onhashchange = function () {
-            var winHash = window.location.hash;
-			var activeElem = document.getElementsByClassName("top-menu");
-			console.log(activeElem);
-			if(activeElem.length >0 ){
-				for(var i=0; i<activeElem.length; i++){
-					activeElem[i].classList.remove('active');				
-				}
-			}
-			
-			
-			console.log(winHash);
-			switch(winHash){
-			case "#!/sales":
-				document.getElementById('sales-top-menu').classList.add('active');
-			break;
+            mapHashChangeToMenuUpdate ();            
+        } 	
 
-			case "#!/repair":
+        function mapHashChangeToMenuUpdate (){
+          var winHash = window.location.hash;
+          var activeElem = document.getElementsByClassName("top-menu");
+          console.log(activeElem);
+          if(activeElem.length >0 ){
+            for(var i=0; i<activeElem.length; i++){
+              activeElem[i].classList.remove('active');       
+            }
+          }
+          
+          
+          console.log(winHash);
+          switch(winHash){
+          case "#!/sales":
+            document.getElementById('sales-top-menu').classList.add('active');
+          break;
+			case "#!/service":
 				document.getElementById('repair-top-menu').classList.add('active');
 			break;
-			case "#!/report":
-				document.getElementById('report-top-menu').classList.add('active');
-			break;
-					
-			}
-        } 	       
+          case "#!/service-pickup":
+          case "#!/service-pickup-final":
+            document.getElementById('repair-pickup-top-menu').classList.add('active');
+          break;
+              
+          }// switch
+
+          //dynamic URL checking
+
+        if (winHash.indexOf('#!/service-pickup-final') !== -1) {
+            document.getElementById('repair-pickup-top-menu').classList.add('active');
+        }
+        
+        
+
+        }
+        
+
+
+        function updateMyLink(){
+          mapHashChangeToMenuUpdate ();
+        }       
      </script>
 </head>
-<body >
-    <nav class="navbar navbar-inverse navbar-fixed-top" >
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header"><a class="navbar-brand" href="#">Naik Camera Emporium</a></div>
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li class="top-menu active" id="sales-top-menu" ><a href="#!/sales">Sales</a></li>
-                    <li class="top-menu" id="repair-top-menu"><a href="#!/repair">Service</a></li>
-                    <li class="top-menu" id="report-top-menu"><a href="#!/report">Report</a></li>
+                    <li class="top-menu" id="repair-top-menu"><a href="#!/service">Service Drop</a></li>
+                    <li class="top-menu" id="repair-pickup-top-menu"><a href="#!/service-pickup">Service PickUp</a></li>
                 </ul>
                 <!-- 
                 <ul class="nav navbar-nav navbar-right">
@@ -110,8 +164,9 @@
   <!-- In production use:
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
   -->
-  <script src="Vendor/angular/angular.min.js"></script>
+  <script src="Vendor/angular/angular.js"></script>
   <script src="Vendor/angular/angular-route.min.js"></script>
+  <script src="Vendor/angular/checklist-model.js"></script>
   <script src="Vendor/angular/ui-bootstrap-tpls-2.5.0.min.js"></script>
   <script src="Vendor/angular/smart-table.min.js"></script>
 
@@ -120,7 +175,8 @@
   <script src="view2/view2.js"></script>
   <script src="sales/sales.js"></script>
   <script src="repair/repair.js"></script>
-  <script src="report/report.js"></script>
+  <script src="service/service.js"></script>
+  <script src="service-pickup/service-pickup.js"></script>
 
   <script type="text/ng-template" id="custom-datepicker.html">
     <div class="form-inline enhanced-datepicker">
@@ -141,6 +197,14 @@
         </label>
     </div>
 </script>
+  <script src="components/service/services.js"></script>
+  <script src="components/service/customer-service.js"></script>
+  <script src="components/service/product-service.js"></script>
+  <script src="components/service/tax-service.js"></script>
+  <script src="components/service/utils-service.js"></script>
+    
+  <script src="components/service/service-actions.js"></script>
+  <script src="components/service/validation-service.js"></script>
   
   <script src="components/date/date.js"></script>
   <script src="components/date/date-directive.js"></script>
