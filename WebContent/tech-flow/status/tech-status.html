@@ -1,10 +1,9 @@
-<h1> Technician Flow </h1>
+<h1> Technician Status Flow </h1>
 
 <div class="container-fluid" ng-init="init()">
-    <div class="container-fluid">
-        
 
-   
+
+
     <div class=row >
         <div class="form-group">
             <label class="control-label col-sm-3" >
@@ -13,13 +12,13 @@
 
             <div class="col-sm-6">
                 <input type="text" 
-                        ng-model="searchTextModel"
+                        ng-model="statusSearchTextModel"
                         placeholder="search records" 
                         class="form-control" 
                         aria-autocomplete="list" 
                         aria-expanded="false" 
                         aria-owns="typeahead-81-4942" 
-                        ng-enter="searchTextAsPerFilterOption()" 
+                        ng-enter="statusSearchTextAsPerFilterOption()" 
                         autocomplete="off" 
                         autofocus 
                         required />
@@ -29,28 +28,21 @@
             </div>
             <div class="col-sm-3" >
                     <label class="control-label" >
-                        <select  ng-model="selectedSearchFilterOptionsModel" 
+                        <select  ng-model="statusSelectedSearchFilterOptionsModel" 
                                  class="form-control"
-                                 ng-enter= "searchTextAsPerFilterOption()">
-                            <option ng-repeat="x in searchFilterOptions" value="{{x}}">{{x}}</option>
+                                 ng-enter= "statusSearchTextAsPerFilterOption()">
+                            <option ng-repeat="x in statusSearchFilterOptions" value="{{x}}">{{x}}</option>
                         </select>
                     </label>
             </div>
-
-            <div class="col-sm-3" >
-                    <label class="control-label" >
-                             <button  class="form-control btn btn-sm btn-info"  
-                                     ng-click="clearSearchCriteria()">Clear Search</button>
-                       
-                    </label>
-            </div>
-
 
             <span class="errMsg">{{serviceSearchCriteriaIncomplete}}</span>
            
 
         </div>
     </div>
+
+
     <div class="row" >
         <fieldset class="product-list-section">
             <legend class="product-list-section">Job List</legend>
@@ -64,14 +56,13 @@
                             <th style="width:5%">Service Date</th>
                             <th style="width:20%">Customer Info</th>
                             <th style="width:20%">Product Details</th>
-                            <th style="width:10%">Accesory Lists</th>
                             <th style="width:10%">Problem Lists</th>
-                            <th style="width:20%">Comments</th>
-                            <th style="width:5%">Action</th>
+                            <th style="width:25%">Technician Status</th>
+
                         </tr>
                     </thead>
                     <tbody >
-                        <tr ng-repeat="row in actualServiceList" data-my={row.serviceNumber}>
+                        <tr ng-repeat="row in currentJobStatusList" data-my={row.serviceNumber}>
                             <td>{{$index+1}}</td>
                             <td> {{row.serviceNumber}} </td>
                             <td> {{row.serviceDate}} </td>
@@ -80,25 +71,16 @@
                                 <span class="in-table-data"> phone: </span> {{row.customerInfo.phone}} <br/> 
                             </td>
                             <td> 
-                                 <div ng-repeat="item in row.productInfo">
-                                    
-                                     <span class="in-table-data"> name: </span>{{item.name}}#{{item.model}}# {{item.sn}}<br/> 
-                                     <span class="in-table-data"> status:</span> {{serviceStatusMapping [item.serviceStatus]}} <br/>  
-                                     <span class="in-table-data"> sn:</span> {{item.sn}} <br/>
-                                     <hr/>
-                                  
-                                </div>  
+                              <div ng-repeat="item in row.productInfo">
+                                <span class="in-table-data"> name: </span>{{item.name}}#{{item.model}}# {{item.sn}}<br/> 
+                               </div>  
                             </td>
-                             <td>{{row.accessoryList}}</td>
-                             <td>{{row.problemList}}</td>
-                             <td> 
-                                <span class="in-table-data"> customer: </span>{{row.commentsInfo.customer}} <br/>
-                                 <span class="in-table-data"> reciever:</span> {{row.commentsInfo.shopkeeper}}<br/>
-                                 <span class="in-table-data"> technician:</span>{{row.commentsInfo.tech}}<br/>
-                            </td>
-                              <td> 
-                                <button  class="form-control btn btn-sm btn-info" 
-                                         ng-click="updateStatusClicked(row)">Update Status</button>
+                            <td>{{row.problemList}}</td>
+                            <td>
+                                <div ng-repeat="item in row.technicianStatusList">
+                                    <span class="in-table-data"> date: </span>{{item.date}}#{{item.status}}# {{item.comments}}<br/> 
+                                </div>    
+
                             </td>
                         </tr>
                     </tbody>
@@ -108,9 +90,6 @@
 
     </div>
 
-    
-
-</div>
 </div>
 
 

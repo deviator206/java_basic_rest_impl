@@ -8,30 +8,7 @@ angular.module('salesApp.sales', ['ngRoute' , 'smart-table', 'ui.bootstrap'])
       "phone": ""
     };
     $scope.receiptType = "TAX INVOICE";
-    $scope.paymentInfo = {
-      paymentType: "cash",
-      paymentTypes: [{name: "Cash", value: "cash"},
-                    {name: "Card Pyment", value: "card"},
-                    {name: "Cheque", value: "cheq"}],
-      cardTypes:["RuPay", "VISA", "MaeterCard", "American Express", "Chase", "Discover"],
-      cash: {
-        amount:0
-      },
-      card:{
-        amount:0,
-        bankName:'',
-        cardNumber:'',
-        expDate:'',
-        cardNetwork:'',
-        cardBank:''
-      },
-      cheq:{
-        amount:0,
-        bankName:'',
-        cheqNo:'',
-        cheqDate:''
-      }
-    };
+    $scope.paymentInfo = Util.paymentInfoObj();
     
     $scope.date = new Date();
     $scope.dateValue = null;
@@ -50,6 +27,13 @@ angular.module('salesApp.sales', ['ngRoute' , 'smart-table', 'ui.bootstrap'])
     ];
     
     $scope.taxTypeTotal = {};
+    
+    $scope.salesDateFocus = function(event,a,b,c){
+        console.log(event);
+        console.log(a);
+        console.log(b);
+        console.log(c);
+    }
     
     var setInitialValuforTotals = function(){
         return {
@@ -85,6 +69,7 @@ angular.module('salesApp.sales', ['ngRoute' , 'smart-table', 'ui.bootstrap'])
         $scope.paymentInfo.cash.amount = $scope.productTotal.grandTotal;
         $scope.paymentInfo.cheq.amount = $scope.productTotal.grandTotal;
         $scope.paymentInfo.card.amount = $scope.productTotal.grandTotal;
+        $scope.paymentInfo.online.amount = $scope.productTotal.grandTotal;
         
     };
     
@@ -151,10 +136,20 @@ angular.module('salesApp.sales', ['ngRoute' , 'smart-table', 'ui.bootstrap'])
         $scope.customerDetails.id = value.id || null;
         $scope.customerDetails.phone = value.phone || '';
         $scope.customerDetails.address = value.address || '';
+        $scope.customerDetails.email = value.email || "";
+        $scope.customerDetails.alternateNo = value.contact2 || "";
     }
     
     $scope.setFocusTo = function(formElementToFocus){
         document.salesForm[formElementToFocus].focus();
+    }
+    $scope.onProductName = function(formElementToFocus){
+        if($scope.selectedProducts.length > 0 && $scope.curentProduct.name.trim() === ''){
+            $scope.setProductContainerToPristine();
+            $scope.setFocusTo('paymentInfoPaymentType');
+        }else{
+            $scope.setFocusTo(formElementToFocus);
+        }
     }
     
     $scope.selectProductFrmList = function(value, type){
