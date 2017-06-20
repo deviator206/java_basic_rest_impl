@@ -65,8 +65,13 @@ function($scope, $http, $modal, $log, customerSearch, productSearch, taxService,
             }
         }
         if(requestParams.serviceId){
+        //	var temp = requestParams.serviceId.replace(/:/g,"/");
+        	//requestParams.serviceId = temp;
             customerService.fetchServiceItemsFroDelivery(requestParams).
             then(function(response){
+            	if (response.data.status && response.data.searchResults.length > 0) {
+            		response.data = response.data.searchResults[0]
+            	}
                 var data = angular.copy(response.data);
                     $timeout(function () {
                         angular.merge($scope.serviceRequest, data);
@@ -98,7 +103,7 @@ function($scope, $http, $modal, $log, customerSearch, productSearch, taxService,
         var postParam = angular.copy($scope.serviceRequest);
 
         customerService.deliverProduct(postParam).then(function(response){
-            $scope.deliverProductResponse = response.data;
+            $scope.serviceResponse = response.data;
             Util.openPrintPopUp($scope, 'service-drop');
         });
     }
@@ -288,8 +293,8 @@ function($scope, $http, $modal, $log, customerSearch, productSearch, taxService,
     };    
         
     $scope.customerList = function(val) {
-        //return $http.get('http://10.20.116.112:8080/vogellaRestImpl/rest/customer/serach-customer',{
-        return $http.get('fixture/customer.json?text='+(Math.random()),{
+        return $http.get('rest/customer/serach-customer',{
+        //return $http.get('fixture/customer.json?text='+(Math.random()),{
           params: {
             text: val
           }
@@ -301,8 +306,8 @@ function($scope, $http, $modal, $log, customerSearch, productSearch, taxService,
     };
    
     $scope.productList = function(val, type) {
-        //return $http.get('http://10.20.116.112:8080/vogellaRestImpl/rest/product/search-product',{
-        return $http.get('fixture/item-list.json?v='+Math.random(), {
+        return $http.get('rest/product/search-product',{
+        //return $http.get('fixture/item-list.json?v='+Math.random(), {
           params: {
             text: val,
             type: type
@@ -340,6 +345,9 @@ function($scope, $http, $modal, $log, customerSearch, productSearch, taxService,
     $scope.stringify = function(json){
         return JSON.stringify(json);
     }
+    $scope.prepareForServer = function(arr){
+    	return arr.toString();
+    }
     
     $scope.performServiceDrop = function(){
         console.log($scope.serviceRequest);
@@ -347,8 +355,11 @@ function($scope, $http, $modal, $log, customerSearch, productSearch, taxService,
         $scope.serviceRequest.service_order_date = Util.jsDateConversionFunction($scope.serviceOrderDate);
         $scope.serviceRequest.tentative_service_completion_date = Util.jsDateConversionFunction($scope.serviceOrderDate);
         $scope.serviceRequest.paymentInfo = $scope.paymentInfo;
-
-        customerService.dropProduct().then(function(response){
+        $scope.serviceRequest.userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+        $scope.serviceRequest.accList = $scope.prepareForServer($scope.serviceRequest.accessoryList);
+        $scope.serviceRequest.probList= $scope.prepareForServer($scope.serviceRequest.problemLists);
+        
+        customerService.dropProduct($scope.serviceRequest).then(function(response){
             $scope.serviceResponse = response.data;
             Util.openPrintPopUp($scope, 'service-drop');
         });

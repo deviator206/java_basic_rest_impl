@@ -10,8 +10,9 @@ angular.module('salesApp.report', ['ngRoute'])
 }])
 
 .controller('ServicePickUpController', ['$scope','$http', 'Util','$location', function($scope,$http,Util,$location) {
-	$scope.searchFilterOptions = [ "SERVICE ID","SERIAL NUMBER", "PRODUCT NAME","CUSTOMER PHONE", "CUSTOMER NAME", "ALL"];
-	$scope.searchFilterByOptions=["SEARCH BY TEXT", "SEARCH BY DATE"];
+	$scope.searchFilterOptions = [ "CUSTOMER_NAME","CUSTOMER_PHONE", "SERVICE_ID","SERIAL_NUMBER", "PRODUCT_NAME"];
+	$scope.searchFilterByOptions=["SEARCH BY TEXT"];
+	//, "SEARCH BY DATE"
 	$scope.selectedFilterOption = $scope.searchFilterOptions[0];
 	$scope.searchQueryObject ={};
 	$scope.searchServiceByText ="";
@@ -85,9 +86,12 @@ angular.module('salesApp.report', ['ngRoute'])
 			return false;
 		}
 		
-		$scope.selectedServiceOrderId = row.serviceNumber
+		$scope.selectedServiceOrderId = row.serviceNumber;
+		var arr = row.serviceNumber.split("/");
+		$scope.selectedServiceOrderIdForURL = arr[arr.length-1];
+		$scope.selectedServiceOrderIdForURL = row.serviceNumber.replace(/\//g,":");
 		$scope.selectedServiceOrderDetails = row;
-		$location.path( '/service-pickup-final/'+$scope.selectedServiceOrderId+'/'+$scope.selectedProductList.itemsToDeliver.toString() );
+		$location.path( '/service-pickup-final/'+$scope.selectedServiceOrderIdForURL+'/'+$scope.selectedProductList.itemsToDeliver.toString() );
 		//$scope.selectedProductList.itemsToDeliver - items selected
 
 		
@@ -146,42 +150,48 @@ angular.module('salesApp.report', ['ngRoute'])
 	}
 
 	$scope.searchTextAsPerFilterOption = function(){
-
-		var b = this.populateQueryObject();
-		
-		if (b) {
-			$scope.actualServiceList = [];
-			$http({
-				//method: "POST",
-				method: "GET",
-				//  url: 'rest/login?v='+(Math.random()),
-				  url: 'service-pickup/searchOptionForService.json?v='+(Math.random()),
-				  params:this.searchQueryObject
-				}).then(function successCallback(response) {
-				    // this callback will be called asynchronously
-					if (response.data.status) {
-						 $scope.errorInSearchOptions = "Found "+response.data.searchResults.length+" records";
-						 $scope.actualServiceList =response.data.searchResults;
-						 
-						 
-					}
-					else {
+		if ($scope.searchServiceByText.length > 1) {
+			var b = this.populateQueryObject();
+			if (b) {
+				$scope.actualServiceList = [];
+				$http({
+					//method: "POST",
+					method: "GET",
+					 url: 'rest/repair/pickup-by-customer?v='+(Math.random()),
+					 // url: 'service-pickup/searchOptionForService.json?v='+(Math.random()),
+					  params:this.searchQueryObject
+					}).then(function successCallback(response) {
+					    // this callback will be called asynchronously
+						if (response.data.status) {
+							 $scope.errorInSearchOptions = "Found "+response.data.searchResults.length+" records";
+							 $scope.actualServiceList =response.data.searchResults;
+							 
+							 
+						}
+						else {
+							
+							 $scope.errorInSearchOptions ="Error in searching.."
+						}
 						
-						 $scope.errorInSearchOptions ="Error in searching.."
-					}
-					
-					console.log(localStorage.getItem("userInfo"));
-				    // when the response is available
-				  }, function errorCallback(response) {
-				    // called asynchronously if an error occurs
-				    // or server returns response with an error status.
-					  $scope.errorInLogin = "true";
-					  $scope.errorInLoginMessage ="Error in Login. Please check the credentials"
-				  });
+						console.log(localStorage.getItem("userInfo"));
+					    // when the response is available
+					  }, function errorCallback(response) {
+					    // called asynchronously if an error occurs
+					    // or server returns response with an error status.
+						  $scope.errorInLogin = "true";
+						  $scope.errorInLoginMessage ="Error in Login. Please check the credentials"
+					  });
 
 
 
+			}
+			
 		}
+		else {
+			 $scope.errorInSearchOptions ="Enter atleast 4 letters for searching.."
+		}
+		
+
 		// invoke Search
 		
 	}

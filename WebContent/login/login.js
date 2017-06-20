@@ -8,16 +8,17 @@ angular.module('salesApp', []).controller('loginController', ['$scope', '$http',
 		$http.defaults.headers.post["Content-Type"] = "application/json";
 		
 		$http({
-				//method: "POST",
-				method: "GET",
-				//  url: 'rest/login?v='+(Math.random()),
-				  url: 'login/login.json?v='+(Math.random()),
+				method: "POST",
+				//method: "GET",
+				  url: 'rest/login?v='+(Math.random()),
+				 // url: 'login/login.json?v='+(Math.random()),
 				  data:{"userName":$scope.userNameModel,"password":$scope.userPasswordModel}
 				}).then(function successCallback(response) {
 				    // this callback will be called asynchronously
 					if (response.data.status) {
 						 $scope.errorInLogin = false;
 						 if (typeof(Storage) !== "undefined") {
+							 sessionStorage.setItem("userInfo",JSON.stringify(response.data));
 							 sessionStorage.setItem("userInfoRole",response.data.role);
 							 if (response.data.role === "ADMIN") {
 								 window.open("index.html","_self"); 

@@ -368,3 +368,15 @@ output:
   "counterValue": 1,
   "productServiceResponse": null
 }
+
+
+// 18th JUNE
+http://localhost:8080/vogellaRestImpl/rest/repair/drop-from-customer
+PAYLOAD POST
+{"selectedProductList":[],"problemLists":["Water Damage","Fungus in Binocular"],"accessoryList":["Battery","Body Cap"],"shopUserComment":"asdasdddwqwwwwww","customerComment":"asddsa","tentative_quoted_cost":0,"customerInfo":{"id":25,"name":"SANDEEP","address":"Puneasdasdasdads","phone":"9999999999","email":"","alternateNo":""},"productInfo":[{"name":"NIKON","id":19,"model":"ssd20000","sn":"asdasasdads"}],"service_order_date":"2017-06-18 07:05:54","tentative_service_completion_date":"2017-06-18 07:05:54","courierInfo":{"isCourier":false,"courierName":"","courierPhone":"","courierDocumentNo":""},"courierOutwardInfo":{"isCourier":false,"courierName":"","courierPhone":"","courierDocumentNo":""},"pageMode":"SERVICE_DROP","serviceDate":"2017-06-18 07:05:54","paymentInfo":{"paymentType":"cash","paymentTypes":[{"name":"Cash","value":"cash"},{"name":"Card Pyment","value":"card"},{"name":"Cheque","value":"cheq"},{"name":"Online","value":"online"}],"cardTypes":["RuPay","VISA","MaeterCard","American Express","Chase","Discover"],"cash":{"amount":0},"card":{"amount":0,"bankName":"","cardNumber":"","expDate":"","cardNetwork":"","cardBank":""},"cheq":{"amount":0,"bankName":"","cheqNo":"","cheqDate":""},"online":{"amount":0,"payMode":"","transactionId":"","remark":""}},"userInfo":{"status":true,"role":"ADMIN","userName":"admin","id":1},"accList":"Battery,Body Cap","probList":"Water Damage,Fungus in Binocular"}
+OUTPUT
+{
+  "status": true,
+  "repairReceiptId": "CE/2017-18/42"
+}
+

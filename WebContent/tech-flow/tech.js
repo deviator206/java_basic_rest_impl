@@ -9,14 +9,14 @@ angular.module('salesApp.tech', ['ngRoute' , 'smart-table', 'ui.bootstrap'])
 .controller('TechnicianCtrl', ['$scope', '$http', '$uibModal', '$log','Util' ,function($scope, $http, $modal, $log,Util) {
 
    $scope.searchTextModel = "";
-    $scope.searchFilterOptions = [ "ALL","SERVICE ID","SERIAL NUMBER", "PRODUCT NAME","CUSTOMER PHONE", "CUSTOMER NAME"];
+    $scope.searchFilterOptions = [ "SERVICE_ID","SERIAL_NUMBER", "PRODUCT_NAME","CUSTOMER_PHONE", "CUSTOMER_NAME"];
 
     $scope.itemStatusListMap = [ "IN PROGRESS","COMPLETE","PART PENDING", "CANNOT BE REPAIRED"];
     $scope.backendItemStatusMap= {
         "IN PROGRESS" :"IP",
         "COMPLETE" : "C",
         "PART PENDING" :"PP",
-         "CANNOT BE REPAIRED" :"CBR"
+        "CANNOT BE REPAIRED" :"CBR"
     }
 
     $scope.selectedItemStatusListMapModel ="";
@@ -32,23 +32,25 @@ angular.module('salesApp.tech', ['ngRoute' , 'smart-table', 'ui.bootstrap'])
     }
 
     $scope.init  = function(){
-        $scope.searchTextModel = "";
+        $scope.searchTextModel = "*";
         $scope.selectedSearchFilterOptionsModel = $scope.searchFilterOptions[0];
         $scope.selectedItemForUpdate = undefined;
         $scope.selectedItemStatusListMapModel = $scope.itemStatusListMap[0];
+        $scope.searchTextAsPerFilterOption();
     }
 
     $scope.searchTextAsPerFilterOption = function(){
         console.log($scope.searchTextModel+" ::: "+$scope.selectedSearchFilterOptionsModel);
         var searchQueryObject={
-            "searchText":$scope.searchTextModel,
-            "col": $scope.selectedSearchFilterOptionsModel.replace(/\s+/g,'')
+            "query":$scope.searchTextModel,
+            "col": $scope.selectedSearchFilterOptionsModel.replace(/\s+/g,''),
+            "status":"IP"
         }
         $http({
                 //method: "POST",
                 method: "GET",
-                //  url: 'rest/login?v='+(Math.random()),
-                  url: 'service-pickup/searchOptionForService.json?v='+(Math.random()),
+                url: 'rest/repair/tech-new-jobs?v='+(Math.random()),
+                  //url: 'service-pickup/searchOptionForService.json?v='+(Math.random()),
                   params:searchQueryObject
                 }).then(function successCallback(response) {
                     // this callback will be called asynchronously
@@ -96,7 +98,8 @@ angular.module('salesApp.tech', ['ngRoute' , 'smart-table', 'ui.bootstrap'])
              }
                $http({
                 method: "POST",
-                  url: 'service-pickup/searchOptionForService.json?v='+(Math.random()),
+                url: 'rest/repair/tech-job-status-update?v='+(Math.random()),
+                  //url: 'service-pickup/searchOptionForService.json?v='+(Math.random()),
                   data:searchQueryObject
                 }).then(function successCallback(response) {
                     if (response.data.status) {

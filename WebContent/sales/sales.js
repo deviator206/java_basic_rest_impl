@@ -82,7 +82,8 @@ angular.module('salesApp.sales', ['ngRoute' , 'smart-table', 'ui.bootstrap'])
     var salesAjaxCall = function(payload){
         $http({
             method : "POST",
-            url : 'fixture/sales.json?v='+(Math.random()),
+           // url : 'fixture/sales.json?v='+(Math.random()),
+            url: 'rest/invoice/sales?v='+(Math.random()),
             data : payload
         }).then(function mySuccess(response) {
             $scope.salesResponseData = response.data;
@@ -105,8 +106,8 @@ angular.module('salesApp.sales', ['ngRoute' , 'smart-table', 'ui.bootstrap'])
 
     $scope.customerList = function(val) {
         
-        //return $http.get('http://10.20.116.112:8080/vogellaRestImpl/rest/customer/serach-customer',{
-        return $http.get('fixture/customer.json?text='+(Math.random()),{
+       return $http.get('rest/customer/serach-customer',{
+       // return $http.get('fixture/customer.json?text='+(Math.random()),{
           params: {
             text: val
           }
@@ -118,8 +119,8 @@ angular.module('salesApp.sales', ['ngRoute' , 'smart-table', 'ui.bootstrap'])
     };
 
     $scope.productList = function(val, type) {
-        return $http.get('fixture/item-list.json?v='+Math.random(), {
-        //return $http.get('http://10.20.116.112:8080/vogellaRestImpl/rest/product/search-product',{
+        //return $http.get('fixture/item-list.json?v='+Math.random(), {
+        return $http.get('rest/product/search-product',{
           params: {
             text: val,
             type: type
