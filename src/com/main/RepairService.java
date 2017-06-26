@@ -63,10 +63,10 @@ public class RepairService {
 		GetRepairRequestStatusImpl getRepairRequestStatusImpl = new GetRepairRequestStatusImpl();
 		getRepairRequestStatusImpl.setQueryText(queryText);
 		getRepairRequestStatusImpl.setQueryOnColumn(queryOnColumn);
+		
 		getRepairRequestStatusImpl.execute();
 		return getRepairRequestStatusImpl.getSearchResult();
 	}
-	
 	
 	@Path("deliver-to-customer")
 	@GET

@@ -112,10 +112,25 @@ public class RepairRequestResponse extends MainResponse {
 		this.userInfo = userInfo;
 	}
 
+	/**
+	 * @return the totalIncome
+	 */
+	public String getTotalIncome() {
+		return totalIncome;
+	}
+
+	/**
+	 * @param totalIncome the totalIncome to set
+	 */
+	public void setTotalIncome(String totalIncome) {
+		this.totalIncome = totalIncome;
+	}
+
 	private String problemList;
 	private String serviceNumber;
 	private String serviceStatus;
 	private String serviceDate;
+	private String totalIncome;
 	
 	private CommentsInfoModel commentsInfo;
 	private CourierInfoModel courierInfo;

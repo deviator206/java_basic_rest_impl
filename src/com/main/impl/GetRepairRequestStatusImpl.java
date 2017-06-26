@@ -24,6 +24,7 @@ public class GetRepairRequestStatusImpl extends CreateRepairRequestServiceImpl {
 	SearchRepairServiceResponse mainResponse = new SearchRepairServiceResponse();
 	public List<RepairRequestResponse> responseSearchResult;
 	private String serviceOrderStatusInput="";
+	private int totalIncome = 0;
 
 	public GetRepairRequestStatusImpl() {
 		this.queryOnColumn = "";
@@ -75,7 +76,7 @@ public class GetRepairRequestStatusImpl extends CreateRepairRequestServiceImpl {
 
 	
 	public void triggerSearch(CustomerServiceResponse customerInfo, int customerId) throws SQLException{
-		System.out.println(" Looping for Tigger Search............");
+		// System.out.println(" Looping for Tigger Search............");
 		Statement stmt;
 		stmt = this.dbConnection.createStatement();
 		String query = "";
@@ -91,6 +92,7 @@ public class GetRepairRequestStatusImpl extends CreateRepairRequestServiceImpl {
 				query = "select * from " + this.SERVICE_INFO_TABLE + " where " + this.getColumnNameString(customerId)+" AND  serviceStatus='"+serviceOrderStatusInput+"'";
 			}
 		}
+		
 		
 		ResultSet rs = stmt.executeQuery(query);
 		while (rs.next()) {
@@ -162,10 +164,15 @@ public class GetRepairRequestStatusImpl extends CreateRepairRequestServiceImpl {
 			
 			PaymentInfoModel paymentInfoModel = new PaymentInfoModel();
 			paymentInfoModel.setAdvancePayment(rs.getString(27));
+			if (rs.getString(28) != null){
+				totalIncome = totalIncome + rs.getInt(28); 
+				paymentInfoModel.setFinalAmount(rs.getString(28));
+			}
+			
 			repairServiceResponse.setPaymentInfo(paymentInfoModel);
 			responseSearchResult.add(repairServiceResponse);
 			mainResponse.setStatus(true);
-			System.out.println(" RECORDS ###################"+rs.getString(22));
+			// System.out.println(" RECORDS ###################"+rs.getString(22));
 		}
 		
 	}
@@ -191,6 +198,7 @@ public class GetRepairRequestStatusImpl extends CreateRepairRequestServiceImpl {
 		
 		responseSearchResult = new ArrayList<>();
 		int customerId = 0;
+		totalIncome = 0;
 		
 		if (queryOnColumn.equalsIgnoreCase("CUSTOMER_PHONE") || queryOnColumn.equalsIgnoreCase("CUSTOMER_NAME")) {
 			Statement stmt1;
@@ -205,7 +213,7 @@ public class GetRepairRequestStatusImpl extends CreateRepairRequestServiceImpl {
 				customerInfo.setName(rs1.getString(2));
 				customerInfo.setAddress(rs1.getString(3));
 				customerInfo.setPhone( rs1.getString(4));
-				System.out.println(" Looping for "+customerId+" : ###"+customerInfo.getName());
+				// System.out.println(" Looping for "+customerId+" : ###"+customerInfo.getName());
 				this.triggerSearch(customerInfo,customerId);
 			}
 		} else {
@@ -213,12 +221,18 @@ public class GetRepairRequestStatusImpl extends CreateRepairRequestServiceImpl {
 		}
 		
 		mainResponse.setSearchResults(this.responseSearchResult);
+		mainResponse.setFinalIncome(totalIncome);
 		this.dbConnection.close();
 		
 	}
 
 	public void setStatus(String status) {
 		this.serviceOrderStatusInput = status;
+	}
+
+	public void setOrderStatusForSearch(String orderStatus) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -72,6 +72,13 @@ function($scope, $http, $modal, $log, customerSearch, productSearch, taxService,
             	if (response.data.status && response.data.searchResults.length > 0) {
             		response.data = response.data.searchResults[0]
             	}
+            	if(response.data.accessoryList != ""){
+            		response.data.accessoryList = response.data.accessoryList.split(",")
+            	}
+            	if(response.data.problemList != ""){
+            		response.data.problemList = response.data.problemList.split(",")
+            	}
+            		
                 var data = angular.copy(response.data);
                     $timeout(function () {
                         angular.merge($scope.serviceRequest, data);
@@ -127,10 +134,12 @@ function($scope, $http, $modal, $log, customerSearch, productSearch, taxService,
     }
     
     var getAdvancePaymentDoneForDrop = function(data){
+    	
         var advancePaymentMade = 0;
-            advancePaymentMade += Util.toDecimalPrecision(data.cash.amount || 0);
-            advancePaymentMade += Util.toDecimalPrecision(data.card.amount || 0);
-            advancePaymentMade += Util.toDecimalPrecision(data.cheq.amount || 0);
+        	
+        	advancePaymentMade += Util.toDecimalPrecision((data.cash && data.cash.amount)?data.cash.amount:0 );
+            advancePaymentMade += Util.toDecimalPrecision((data.cash && data.card.amount)?data.card.amount:0 );
+            advancePaymentMade += Util.toDecimalPrecision((data.cash && data.cheq.amount)?data.cheq.amount:0 );
         return advancePaymentMade;
     }
     
