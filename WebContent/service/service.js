@@ -349,6 +349,10 @@ function($scope, $http, $modal, $log, customerSearch, productSearch, taxService,
     	return arr.toString();
     }
     
+    $scope.comeWhatMay = function(){
+    	
+    }
+    
     $scope.performServiceDrop = function(){
         console.log($scope.serviceRequest);
         $scope.serviceRequest.serviceDate = Util.jsDateConversionFunction($scope.serviceDate);

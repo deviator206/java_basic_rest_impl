@@ -10,11 +10,15 @@ angular.module('salesApp.tech', ['ngRoute' , 'smart-table', 'ui.bootstrap'])
 
    $scope.searchTextModel = "";
     $scope.searchFilterOptions = [ "SERVICE_ID","SERIAL_NUMBER", "PRODUCT_NAME","CUSTOMER_PHONE", "CUSTOMER_NAME"];
+    $scope.pageStatus ="NS";
 
-    $scope.itemStatusListMap = [ "IN PROGRESS","COMPLETE","PART PENDING", "CANNOT BE REPAIRED"];
+    $scope.itemStatusListMap = ["NOT STARTED", "TECHNICIAN HANDLE","COMPLETE","PART PENDING","CUSTOMER APPROVAL"];
     $scope.backendItemStatusMap= {
         "IN PROGRESS" :"IP",
+        "NOT STARTED" :"NS",
+        "TECHNICIAN HANDLE":"TH",
         "COMPLETE" : "C",
+        "CUSTOMER APPROVAL": "CA",
         "PART PENDING" :"PP",
         "CANNOT BE REPAIRED" :"CBR"
     }
@@ -44,7 +48,8 @@ angular.module('salesApp.tech', ['ngRoute' , 'smart-table', 'ui.bootstrap'])
         var searchQueryObject={
             "query":$scope.searchTextModel,
             "col": $scope.selectedSearchFilterOptionsModel.replace(/\s+/g,''),
-            "status":"IP"
+            "currentStatus":"NS",
+            "status":"NS"
         }
         $http({
                 //method: "POST",
@@ -80,16 +85,21 @@ angular.module('salesApp.tech', ['ngRoute' , 'smart-table', 'ui.bootstrap'])
     
     
     $scope.statusIsUpdated = function(){
+    	
       var domList = document.getElementsByClassName("my-product-info")
       var techCommentDom = document.getElementById("techCommentsIDModal")  ;
       var updatedStatusList=[];
       for(var i=0;i<domList.length;i++){
-        updatedStatusList.push({
-            'serviceNumber':$scope.selectedItemForUpdate.serviceNumber,
-            'itemId':domList[i].getAttribute('my-data'),
-            'status':$scope.backendItemStatusMap[(domList[i].value).toUpperCase()],
-            "techComment":techCommentDom.value
-        });
+    	  if($scope.pageStatus !==$scope.backendItemStatusMap[(domList[i].value).toUpperCase()]){
+    		  updatedStatusList.push({
+    	            'serviceNumber':$scope.selectedItemForUpdate.serviceNumber,
+    	            'itemId':domList[i].getAttribute('my-data'),
+    	            'status':$scope.backendItemStatusMap[(domList[i].value).toUpperCase()],
+    	            "techComment":techCommentDom.value,
+    	            "currentStatus":$scope.pageStatus
+    	        });
+    	  }
+        
       }
 
       if (updatedStatusList.length > 0){

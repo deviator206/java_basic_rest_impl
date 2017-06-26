@@ -146,7 +146,7 @@ public class CreateRepairRequestServiceImpl extends ServiceBase {
 			ps.setString(6, this.probList);
 			ps.setString(7, this.shopUserCom);
 			ps.setString(8, this.customerCom);
-			ps.setString(9, "IP");
+			ps.setString(9, "NS");
 			ps.setString(10, this.tentative_quoted_costInfo);
 			ps.setTimestamp(11, (this.tentative_service_completion_dateInfo != null) ?Timestamp.valueOf(this.tentative_service_completion_dateInfo):null);
 			ps.setTimestamp(12, (this.service_order_dateInfo != null) ?Timestamp.valueOf(this.service_order_dateInfo):null);

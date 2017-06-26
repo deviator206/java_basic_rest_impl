@@ -126,13 +126,32 @@ public class GetRepairRequestStatusImpl extends CreateRepairRequestServiceImpl {
 			courierInfo.setCourierPhone(rs.getString(11));
 			courierInfo.setCourierName(rs.getString(10));
 			courierInfo.setCourierDocumentNo(rs.getString(16));
-			repairServiceResponse.setCourierInfo(courierInfo);;
+			repairServiceResponse.setCourierInfo(courierInfo);
 			
 			
 			CommentsInfoModel commentInfo = new CommentsInfoModel();
 			commentInfo.setTech(rs.getString(12));
 			commentInfo.setShopkeeper(rs.getString(13));
 			commentInfo.setCustomer(rs.getString(14));
+			if (rs.getString(40) != null){
+				commentInfo.setC_comment(rs.getString(39) +" : " +rs.getString(40));
+			}
+			
+			if (rs.getString(35) != null){
+				commentInfo.setPp_comment(rs.getString(38) + " : "+rs.getString(35));
+			}
+			
+			if (rs.getString(33) != null){
+				commentInfo.setCa_comment(rs.getString(37) + " : "+rs.getString(33));
+			}
+			
+			if (rs.getString(31) != null){
+				commentInfo.setTh_comment(rs.getString(36) + " : "+rs.getString(31));
+			}
+			
+			
+			
+			
 			repairServiceResponse.setCommentsInfo(commentInfo);
 			
 			repairServiceResponse.setServiceStatus(rs.getString(15));
