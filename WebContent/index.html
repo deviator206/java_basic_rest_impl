@@ -111,6 +111,9 @@
           case "#!/service-pickup-final":
             document.getElementById('repair-pickup-top-menu').classList.add('active');
           break;
+          case "#!//service-status":
+              document.getElementById('repair-status-top-menu').classList.add('active');
+            break;
               
           }// switch
 
@@ -119,6 +122,11 @@
         if (winHash.indexOf('#!/service-pickup-final') !== -1) {
             document.getElementById('repair-pickup-top-menu').classList.add('active');
         }
+          
+        if (winHash.indexOf('#!/service-status') !== -1) {
+            document.getElementById('repair-status-top-menu').classList.add('active');
+        }
+        
         }
         function updateMyLink(){
           mapHashChangeToMenuUpdate ();
@@ -136,6 +144,7 @@
                     <li class="top-menu" ng-class="{active: isActive('/sales')}" id="sales-top-menu" ><a href="#!/sales">Sales</a></li>
                     <li class="top-menu" ng-class="{active: isActive('/service')}" id="repair-top-menu"><a href="#!/service">Service Drop</a></li>
                     <li class="top-menu" ng-class="{active: isActive('/service-pickup')}"id="repair-pickup-top-menu"><a href="#!/service-pickup">Service PickUp</a></li>
+                    <li class="top-menu" ng-class="{active: isActive('/service-status')}"id="repair-status-top-menu"><a href="#!/service-status">Service Status</a></li>
                 </ul>
                 <!-- 
                 <ul class="nav navbar-nav navbar-right">
@@ -181,6 +190,7 @@
   <script src="repair/repair.js"></script>
   <script src="service/service.js"></script>
   <script src="service-pickup/service-pickup.js"></script>
+<script src="service-pickup/status/service_status.js"></script>	
 
   <script type="text/ng-template" id="custom-datepicker.html">
     <div class="form-inline enhanced-datepicker">

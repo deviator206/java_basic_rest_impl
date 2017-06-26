@@ -8,6 +8,7 @@ var salesApp = angular.module('salesApp', [
   'salesApp.sales',
   'salesApp.repair',
   'salesApp.service',
+'salesApp.service_status',
   'salesApp.report',
   'salesApp.version',
   'salesApp.date',
