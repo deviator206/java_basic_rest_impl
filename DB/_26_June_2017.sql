@@ -26,11 +26,9 @@ CREATE TABLE `emp_customer_table` (
   `address` varchar(50) DEFAULT NULL,
   `phone` varchar(15) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8;
 
 /*Data for the table `emp_customer_table` */
-
-insert  into `emp_customer_table`(`id`,`name`,`address`,`phone`) values (36,'sadasd','asdasd','asdas'),(37,'asdasdsad','asdasd','asdas'),(38,'asda','','asda'),(39,'asda','','asda'),(40,'sandeep','Pune','9765896417'),(41,'Sachin','KP','8149620252'),(42,'Supriya','KP','675432219808');
 
 /*Table structure for table `emp_product_table` */
 
@@ -49,8 +47,6 @@ CREATE TABLE `emp_product_table` (
 ) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
 
 /*Data for the table `emp_product_table` */
-
-insert  into `emp_product_table`(`id`,`brandName`,`brandModel`,`serialNumber`,`price`,`tax_type`,`stockQuantity`,`isService`) values (32,'CanonExSuper','1213123312','213124314',9000,'VAT-1',NULL,0);
 
 /*Table structure for table `payment_details_table` */
 
@@ -73,8 +69,6 @@ CREATE TABLE `payment_details_table` (
 
 /*Data for the table `payment_details_table` */
 
-insert  into `payment_details_table`(`id`,`cash`,`cheqNo`,`bankName`,`ifscCode`,`cheqDate`,`accountNo`,`cardNo`,`invoice_id`,`invoice_tin`,`amount`) values (97,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'1','',9000.00);
-
 /*Table structure for table `repair_invoice_table` */
 
 DROP TABLE IF EXISTS `repair_invoice_table`;
@@ -86,11 +80,9 @@ CREATE TABLE `repair_invoice_table` (
   `vat_tin_number` varchar(60) DEFAULT '2763039355V',
   PRIMARY KEY (`id`),
   UNIQUE KEY `actualInvoiceId` (`actualInvoiceId`)
-) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8;
 
 /*Data for the table `repair_invoice_table` */
-
-insert  into `repair_invoice_table`(`id`,`actualInvoiceId`,`defaultValue`,`vat_tin_number`) values (53,'1','NCE/2017-18/','2763039355V'),(54,'NCE/2017-18/2','NCE/2017-18/','2763039355V'),(55,'NCE/2017-18/3','NCE/2017-18/','2763039355V'),(56,'NCE/2017-18/4','NCE/2017-18/','2763039355V'),(57,'NCE/2017-18/5','NCE/2017-18/','2763039355V'),(58,'NCE/2017-18/6','NCE/2017-18/','2763039355V'),(59,'NCE/2017-18/7','NCE/2017-18/','2763039355V'),(60,'NCE/2017-18/8','NCE/2017-18/','2763039355V');
 
 /*Table structure for table `sales_invoice_table` */
 
@@ -106,8 +98,6 @@ CREATE TABLE `sales_invoice_table` (
 ) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=utf8;
 
 /*Data for the table `sales_invoice_table` */
-
-insert  into `sales_invoice_table`(`id`,`actualInvoiceId`,`defaultValue`,`vat_tin_number`) values (103,'1','CE/2017-18/','2763039355V');
 
 /*Table structure for table `sales_order_table` */
 
@@ -132,8 +122,6 @@ CREATE TABLE `sales_order_table` (
 
 /*Data for the table `sales_order_table` */
 
-insert  into `sales_order_table`(`sale_id`,`invoice_id`,`customer_id`,`product_id`,`product_unit_price`,`product_qty`,`product_price_with_qty`,`tax_type`,`tax_rate`,`order_date`,`tax_amount`,`total_amount`,`tax_value`) values (45,'1','40','32',9000.00,1.00,7785.00,'VAT-1','13.5','2017-06-26 11:07:30',1215.00,9000.00,13.00);
-
 /*Table structure for table `service_customer_table` */
 
 DROP TABLE IF EXISTS `service_customer_table`;
@@ -147,8 +135,6 @@ CREATE TABLE `service_customer_table` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Data for the table `service_customer_table` */
-
-insert  into `service_customer_table`(`id`,`name`,`address`,`phone`) values (1,'Sandeep','Pune','989898989');
 
 /*Table structure for table `service_info_table` */
 
@@ -200,7 +186,7 @@ CREATE TABLE `service_info_table` (
   KEY `userId` (`userId`),
   CONSTRAINT `service_info_table_ibfk_1` FOREIGN KEY (`customerId`) REFERENCES `emp_customer_table` (`id`),
   CONSTRAINT `service_info_table_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `validemporiumuser` (`empId`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
 
 /*Data for the table `service_info_table` */
 
