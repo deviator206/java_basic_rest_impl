@@ -80,16 +80,16 @@ public class GetRepairRequestStatusImpl extends CreateRepairRequestServiceImpl {
 		Statement stmt;
 		stmt = this.dbConnection.createStatement();
 		String query = "";
-		if (this.queryText.equalsIgnoreCase("*") || this.queryText.equalsIgnoreCase("")) {
+		if ((this.queryText.equalsIgnoreCase("*") || this.queryText.equalsIgnoreCase("")) && customerId == 0) {
 			query = "select * from " + this.SERVICE_INFO_TABLE;
 			if (serviceOrderStatusInput != null && !serviceOrderStatusInput.isEmpty()){
-				query = "select * from " + this.SERVICE_INFO_TABLE +" where serviceStatus='"+serviceOrderStatusInput+"'";
+				query = "select * from " + this.SERVICE_INFO_TABLE +" where serviceStatus='"+serviceOrderStatusInput+"' ORDER BY id ASC ";
 			}
 		}
 		else {
 			query = "select * from " + this.SERVICE_INFO_TABLE + " where " + this.getColumnNameString(customerId);
 			if (serviceOrderStatusInput != null && !serviceOrderStatusInput.isEmpty()){
-				query = "select * from " + this.SERVICE_INFO_TABLE + " where " + this.getColumnNameString(customerId)+" AND  serviceStatus='"+serviceOrderStatusInput+"'";
+				query = "select * from " + this.SERVICE_INFO_TABLE + " where " + this.getColumnNameString(customerId)+" AND  serviceStatus='"+serviceOrderStatusInput+"' ORDER BY id ASC";
 			}
 		}
 		
@@ -213,7 +213,7 @@ public class GetRepairRequestStatusImpl extends CreateRepairRequestServiceImpl {
 				customerInfo.setName(rs1.getString(2));
 				customerInfo.setAddress(rs1.getString(3));
 				customerInfo.setPhone( rs1.getString(4));
-				// System.out.println(" Looping for "+customerId+" : ###"+customerInfo.getName());
+				 System.out.println(" Looping for "+customerId+" : ###"+customerInfo.getName());
 				this.triggerSearch(customerInfo,customerId);
 			}
 		} else {

@@ -76,7 +76,7 @@ function($scope, $http, $modal, $log, customerSearch, productSearch, taxService,
             		response.data.accessoryList = response.data.accessoryList.split(",")
             	}
             	if(response.data.problemList != ""){
-            		response.data.problemList = response.data.problemList.split(",")
+            		response.data.problemLists = response.data.problemList.split(",")
             	}
             		
                 var data = angular.copy(response.data);

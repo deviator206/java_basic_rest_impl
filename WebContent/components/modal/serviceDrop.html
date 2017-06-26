@@ -37,15 +37,17 @@
            <table st-table="serviceRequest" class="table table-bordered">
             <thead>
             <tr>
-                <th style="width:33%">S.No.</th>
+                <th style="width:5%">S.No.</th>
                 <th style="width:33%">Particulars</th>
-                <th style="width:33%">serial No</th>
+                <th style="width:28%">Model</th>
+                <th style="width:33%">Serial No</th>
             </tr>
             </thead>
             <tbody>
             <tr ng-repeat="row in serviceRequest.productInfo">
                 <th>{{$index+1}}</th>
                 <td>{{row.name}}</td>
+                <td>{{row.model}}</td>
                 <td>{{row.sn}}</td>
             </tr>
             </tbody>
