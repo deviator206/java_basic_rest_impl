@@ -16,6 +16,8 @@ function($scope, $http, $modal, $log, customerSearch, productSearch, taxService,
     $scope.serviceOrderDate = new Date();
     $scope.paymentInfo = Util.paymentInfoObj();
     $scope.printPage = Util.printPage;
+    
+    $scope.inCompleteFormElementList = [];
 
     $scope.serviceRequest = {
         selectedProductList:[],
@@ -362,8 +364,31 @@ function($scope, $http, $modal, $log, customerSearch, productSearch, taxService,
     	
     }
     
+    $scope.validateRequestObject = function(){
+    	var bReturn = true;
+    	
+    	if (!$scope.serviceRequest.customerInfo.name || $scope.serviceRequest.customerInfo.name === ""){
+    		bReturn = false;
+    		$scope.inCompleteFormElementList.push("Customer Name");
+    	}
+    	
+    	if (!$scope.serviceRequest.customerInfo.phone || $scope.serviceRequest.customerInfo.phone === ""){
+    		bReturn = false;
+    		$scope.inCompleteFormElementList.push("Customer Phone Number");
+    	}
+    	
+    	if (!$scope.serviceRequest.courierInfo || ($scope.serviceRequest.courierInfo.isCourier === true && $scope.serviceRequest.courierInfo.courierName ==="") ||
+    			($scope.serviceRequest.courierInfo.isCourier === true && $scope.serviceRequest.courierInfo.courierDocumentNo ==="") ||
+    			($scope.serviceRequest.courierInfo.isCourier === true && $scope.serviceRequest.courierInfo.courierPhone ==="")){
+    		$scope.inCompleteFormElementList.push("CourierInfo Name/DocumentNo/Phone");
+    		bReturn = false;
+    	}
+    	return bReturn;
+    }
+    
     $scope.performServiceDrop = function(){
-        console.log($scope.serviceRequest);
+    	
+    	$scope.inCompleteFormElementList = [];
         $scope.serviceRequest.serviceDate = Util.jsDateConversionFunction($scope.serviceDate);
         $scope.serviceRequest.service_order_date = Util.jsDateConversionFunction($scope.serviceOrderDate);
         $scope.serviceRequest.tentative_service_completion_date = Util.jsDateConversionFunction($scope.serviceOrderDate);
@@ -372,10 +397,26 @@ function($scope, $http, $modal, $log, customerSearch, productSearch, taxService,
         $scope.serviceRequest.accList = $scope.prepareForServer($scope.serviceRequest.accessoryList);
         $scope.serviceRequest.probList= $scope.prepareForServer($scope.serviceRequest.problemLists);
         
-        customerService.dropProduct($scope.serviceRequest).then(function(response){
-            $scope.serviceResponse = response.data;
-            Util.openPrintPopUp($scope, 'service-drop');
-        });
+        if ($scope.serviceRequest.paymentInfo && $scope.serviceRequest.paymentInfo.additional_cash) {
+        	$scope.serviceRequest.paymentInfo.cash.amount = $scope.serviceRequest.paymentInfo.cash.amount + $scope.serviceRequest.paymentInfo.additional_cash
+        }
+        
+        if ($scope.productLogisticMode && $scope.productLogisticMode.logisticType && $scope.productLogisticMode.logisticType === 'courier'){
+        	$scope.serviceRequest.courierInfo.isCourier = true;
+        }
+        
+        if (!$scope.validateRequestObject()){
+        	
+        	return false;
+        	
+        }else {
+        	customerService.dropProduct($scope.serviceRequest).then(function(response){
+                $scope.serviceResponse = response.data;
+                Util.openPrintPopUp($scope, 'service-drop');
+            });
+        }
+        
+        
     };
     
     $scope.reloadPage = function(){

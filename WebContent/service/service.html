@@ -21,6 +21,7 @@
                     autocomplete="off"
                     ng-enter="setFocusTo('custPhone')"
                     typeahead-focus-first="false"
+                    style="text-transform: uppercase" 
                     autofocus
                     required
                     
@@ -35,9 +36,9 @@
                 <div class="form-group">
                     <label class="control-label col-sm-4" for="cust-phone">Phone No:</label>
                     <div class="col-sm-8">
-                        <input autocomplete="off" ng-model="serviceRequest.customerInfo.phone" type="text" 
+                        <input autocomplete="off" required ng-model="serviceRequest.customerInfo.phone" type="text" 
                         class="form-control"  ng-enter="setFocusTo('custPhoneAlternate')" 
-                        id="cust-phone" name="custPhone" placeholder="Enter customer Phone Number">
+                        id="cust-phone" name="custPhone" placeholder="Enter customer Phone Number" minlength="10" maxlength="10">
                     </div>
                 </div>
             </div>
@@ -334,14 +335,42 @@
                  <div ng-include="'components/template/paymentMode.html'"></div>
              </div>    
             </div>
-        </div>      
+        </div>   
+        <div class="panel panel-default height width-97">
+            <div class="panel-heading">Additional Payment Info</div>
+            <div class="panel-body">
+             <div style="width:90%; margin:0 auto">
+                 <div class="col-sm-12">
+                        <div class="form-group">
+                            <br/>
+                            <label class="control-label col-sm-2" for="payment-cash-ammount">Cash Amount:</label>
+                            <div class="col-sm-8">
+                                <input autocomplete="off" ng-model="paymentInfo.additional_cash" type="number" class="form-control" id="payment-cash-ammount" 
+                                placeholder="Cash Amount">
+                            </div>
+                        </div>
+                    </div>
+             </div>    
+            </div>
+        </div>     
       </div>    
     </div>
   </div>  
 </fieldset>
+<fieldset>
 
+
+</fieldset>
 <fieldset class="sales-operation-section" ng-if="serviceRequest.productInfo.length > 0">
     <!--<legend class="sales-operation-section">Final Step</legend>-->
+    <label style="color:red;">
+		  <div class="center-block " style="margin:0 auto">
+		<div ng-if="inCompleteFormElementList.length > 0">  
+		{{" Error In "+ inCompleteFormElementList}}
+		</div>  
+		</div> 
+		</label>
+
     <div class="form-group width-97" style="margin:0 auto">
         <button type="submit" class="btn btn-block btn-success" 
         ng-disabled="!isValidCustomerAdd()"

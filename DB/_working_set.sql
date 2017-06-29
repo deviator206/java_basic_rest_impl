@@ -61,3 +61,10 @@ SELECT * FROM SERVICE_INFO_TABLE WHERE servic`service_customer_table``service_in
 WHERE  customerId  = 40
 
 SELECT * FROM `emp_customer_table`
+
+ALTER TABLE emp_customer_table ADD COLUMN alternate_number VARCHAR(90);
+ALTER TABLE emp_customer_table ADD COLUMN email_id VARCHAR(90);
+
+SELECT * FROM `validemporiumuser`
+
+`userId`````

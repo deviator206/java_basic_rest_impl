@@ -121,7 +121,7 @@
 
                             <td> 
                                  <div ng-repeat="item in row.productInfo">
-                                  <label>  
+                                  
                                   <input type ="checkbox"  
                                         checklist-model="selectedProductList.itemsToDeliver" 
                                         checklist-value="item.id"
@@ -130,7 +130,7 @@
                                          <span class="in-table-data"> name: </span>{{item.name}}#{{item.model}}# {{item.sn}}<br/> 
                                      <span class="in-table-data"> status:</span> {{serviceStatusMapping [item.serviceStatus]}} <br/>  
                                      <span class="in-table-data"> sn:</span> {{item.sn}} <br/>
-                                  </label>
+                                  
                                 </div>  
 
                                  

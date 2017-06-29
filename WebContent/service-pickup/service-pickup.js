@@ -21,11 +21,14 @@ angular.module('salesApp.report', ['ngRoute'])
 		]
 	}
 	$scope.serviceStatusMapping ={
-		"IP":"In Progress",
-		"TNS":"Technician Not Started",
-		"PP":"Part Pending",
-		"CBR":"Cannot be repaired",
-		"C":"Complete"
+			 "IP":"IN PROGRESS",
+		        "NS":"NOT STARTED" ,
+		        "TH":"TECHNICIAN HANDLE",
+		        "C":"COMPLETE" ,
+		         "CA":"CUSTOMER APPROVAL",
+		        "PP":"PART PENDING" ,
+		        "CBR":"CANNOT BE REPAIRED",
+		        "DTC":"DELIVERED TO CUSTOMER"
 	}
 
 	$scope.isValidStateToAddToBill = function(row){

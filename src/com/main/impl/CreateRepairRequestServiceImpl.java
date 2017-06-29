@@ -122,6 +122,8 @@ public class CreateRepairRequestServiceImpl extends ServiceBase {
 			customerServiceImpl.setUserName(customerInfo.getString("name"));
 			customerServiceImpl.setUserAddress(customerInfo.getString("address"));
 			customerServiceImpl.setUserPhone(customerInfo.getString("phone"));
+			customerServiceImpl.setUserAlternatePhone(customerInfo.getString("alternateNo"));
+			customerServiceImpl.setUserEmail(customerInfo.getString("email"));
 			customerServiceImpl.execute();
 			customerValidID = customerServiceImpl.getCustomerCreationResponse().getId();
 		} else {

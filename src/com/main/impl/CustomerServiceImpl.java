@@ -13,6 +13,8 @@ public class CustomerServiceImpl extends ServiceBase {
 	private String userName;
 	private String userAddress;
 	private String userPhone;
+	private String userAlternatePhone;
+	private String userEmail;
 
 	public String CUSTOMER_TABLE = "EMP_CUSTOMER_TABLE";
 	public String COL_USER_NAME = "name";
@@ -89,13 +91,15 @@ public class CustomerServiceImpl extends ServiceBase {
 		try {
 			customerServiceResponse.setStatus(false);
 			String query = " update  " + CUSTOMER_TABLE + " set " + this.COL_USER_NAME + " =? ," + this.COL_USER_ADDRESS
-					+ "=?," + this.COL_USER_PHONE + "=? where " + this.COL_USER_ID + " = ?";
+					+ "=?, " + this.COL_USER_PHONE + "=? alternate_number = ? , email_id= ? where " + this.COL_USER_ID + " = ?";
 
 			PreparedStatement preparedStmt = this.dbConnection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			preparedStmt.setString(1, this.userName);
 			preparedStmt.setString(2, this.userAddress);
 			preparedStmt.setString(3, this.userPhone);
-			preparedStmt.setInt(4, this.userID);
+			preparedStmt.setString(4, this.userAlternatePhone);
+			preparedStmt.setString(5, this.userEmail);
+			preparedStmt.setInt(6, this.userID);
 
 			int count = preparedStmt.executeUpdate();
 			if (count > 0) {
@@ -105,6 +109,9 @@ public class CustomerServiceImpl extends ServiceBase {
 			customerServiceResponse.setName(this.userName);
 			customerServiceResponse.setAddress(this.userAddress);
 			customerServiceResponse.setPhone(this.userPhone);
+			customerServiceResponse.setAlternateNo(this.userAlternatePhone);
+			customerServiceResponse.setEmail(this.userEmail);
+			
 			ResultSet rs = preparedStmt.getGeneratedKeys();
 			if (rs != null && rs.next()) {
 				customerServiceResponse.setId(rs.getInt(1));
@@ -118,6 +125,34 @@ public class CustomerServiceImpl extends ServiceBase {
 			e.printStackTrace();
 		}
 
+	}
+
+	/**
+	 * @return the userAlternatePhone
+	 */
+	public String getUserAlternatePhone() {
+		return userAlternatePhone;
+	}
+
+	/**
+	 * @param userAlternatePhone the userAlternatePhone to set
+	 */
+	public void setUserAlternatePhone(String userAlternatePhone) {
+		this.userAlternatePhone = userAlternatePhone;
+	}
+
+	/**
+	 * @return the userEmail
+	 */
+	public String getUserEmail() {
+		return userEmail;
+	}
+
+	/**
+	 * @param userEmail the userEmail to set
+	 */
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
 	}
 
 }
