@@ -131,6 +131,13 @@ public class GetRepairRequestStatusImpl extends CreateRepairRequestServiceImpl {
 			repairServiceResponse.setCourierInfo(courierInfo);
 			
 			
+			CourierInfoModel outwardCourierInfo = new CourierInfoModel();
+			outwardCourierInfo.setCourierPhone(rs.getString(43));
+			outwardCourierInfo.setCourierName(rs.getString(42));
+			outwardCourierInfo.setCourierDocumentNo(rs.getString(44));
+			repairServiceResponse.setOutwardCourierInfo(outwardCourierInfo);
+			
+			
 			CommentsInfoModel commentInfo = new CommentsInfoModel();
 			commentInfo.setTech(rs.getString(12));
 			commentInfo.setShopkeeper(rs.getString(13));

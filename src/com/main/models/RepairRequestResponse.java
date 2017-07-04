@@ -126,6 +126,20 @@ public class RepairRequestResponse extends MainResponse {
 		this.totalIncome = totalIncome;
 	}
 
+	/**
+	 * @return the outwardCourierInfo
+	 */
+	public CourierInfoModel getOutwardCourierInfo() {
+		return outwardCourierInfo;
+	}
+
+	/**
+	 * @param outwardCourierInfo the outwardCourierInfo to set
+	 */
+	public void setOutwardCourierInfo(CourierInfoModel outwardCourierInfo) {
+		this.outwardCourierInfo = outwardCourierInfo;
+	}
+
 	private String problemList;
 	private String serviceNumber;
 	private String serviceStatus;
@@ -134,6 +148,7 @@ public class RepairRequestResponse extends MainResponse {
 	
 	private CommentsInfoModel commentsInfo;
 	private CourierInfoModel courierInfo;
+	private CourierInfoModel outwardCourierInfo;
 	private CustomerServiceResponse customerInfo;
 	private PaymentInfoModel paymentInfo;
 	private List<ProductInfoModel> productInfo;

@@ -54,10 +54,11 @@
                             <th style="width:5%">Sr. No.</th>
                             <th style="width:5%">Service Number</th>
                             <th style="width:5%">Service Date</th>
-                            <th style="width:20%">Customer Info</th>
-                            <th style="width:20%">Product Details</th>
-                            <th style="width:10%">Problem Lists</th>
+                            <th style="width:15%">Customer Info</th>
+                            <th style="width:15%">Product Details</th>
                             <th style="width:25%">Technician Status</th>
+                            <th style="width:10%">Inward Courier</th>
+                            <th style="width:10%">Outward Courier</th>
 
                         </tr>
                     </thead>
@@ -72,10 +73,15 @@
                             </td>
                             <td> 
                               <div ng-repeat="item in row.productInfo">
-                                <span class="in-table-data"> name: </span>{{item.name}}#{{item.model}}# {{item.sn}}<br/> 
+                              <hr/>
+                            {{item.name}}
+                            <hr/>
+                            {{item.model}}
+                            <hr/>
+                            {{item.sn}}
                                </div>  
                             </td>
-                            <td>{{row.problemList}}</td>
+                            
                             <td>
                                 <hr/>
                                 <span class="in-table-data"> Status: </span> {{uiToBackendMap[row.serviceStatus]}} <br/>	
@@ -87,6 +93,23 @@
 				        <span ng-if="(row.commentsInfo.c_comment != null && row.commentsInfo.c_comment !== '' )"  class="in-table-data"> Completed: </span> {{row.commentsInfo.c_comment}} <br/>
 				                </hr/>    
 
+                            </td>
+                            <td>
+                            <hr/>
+                            {{row.courierInfo.courierName}}
+                            <hr/>
+                            {{row.courierInfo.courierDocumentNo}}
+                            <hr/>
+                            {{row.courierInfo.courierPhone}}
+                            </td>
+                            <td>
+                                                        <hr/>
+                            {{row.outwardCourierInfo.courierName}}
+                            <hr/>
+                            {{row.outwardCourierInfo.courierDocumentNo}}
+                            <hr/>
+                            {{row.outwardCourierInfo.courierPhone}}
+                            
                             </td>
                         </tr>
                     </tbody>

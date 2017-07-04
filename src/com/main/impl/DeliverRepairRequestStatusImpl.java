@@ -46,6 +46,11 @@ public class DeliverRepairRequestStatusImpl extends ServiceBase {
 	private JSONObject finalPaymentInfo;
 	private RepairServiceResponse finalPaymentDone;
 	private String finalServiceNumber;
+	
+	private String outwardCName="";
+	private String outwardCPhn="";
+	private String outwardCDocNo="";
+	private int outwardCBoolean= 0 ;
 
 
 	public CustomerServiceResponse returnValidCustomerInfo(int customerId) throws SQLException{
@@ -154,10 +159,14 @@ public class DeliverRepairRequestStatusImpl extends ServiceBase {
 	public void executeFinalPayment() throws SQLException, JSONException {
 		this.getConnection();
 		Statement stmt1;
-		String sql ="update SERVICE_INFO_TABLE SET finalPayment = ?, serviceStatus = ?  where service_order_number = '"+this.finalServiceNumber+"' ";
+		String sql ="update SERVICE_INFO_TABLE SET finalPayment = ?, serviceStatus = ? , isOutwardCourier =?, outwardCourierDocumentNo = ?,  outwardCourierName = ?, outwardCourierPhone = ?  where service_order_number = '"+this.finalServiceNumber+"' ";
 		PreparedStatement ps = this.dbConnection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
 		ps.setString(1, this.finalPaymentInfo.getJSONObject(this.finalPaymentInfo.getString("paymentType")).getString("amount"));
 		ps.setString(2, "DTC");
+		ps.setInt(3, outwardCBoolean);
+		ps.setString(4, outwardCDocNo);
+		ps.setString(5, outwardCName);
+		ps.setString(6,outwardCPhn);
 		int count  = ps.executeUpdate();
 		finalPaymentDone = new RepairServiceResponse();
 		if (count > 0) {
@@ -193,5 +202,18 @@ public class DeliverRepairRequestStatusImpl extends ServiceBase {
 		this.finalServiceNumber = string;
 		
 	}
+
+	public void setOutwardCourierInfo(JSONObject jsonObject) throws JSONException {
+		// TODO Auto-generated method stub
+		if(jsonObject.getBoolean("isCourier")) {
+			outwardCName=jsonObject.getString("courierName");
+			outwardCPhn=jsonObject.getString("courierPhone");
+			outwardCDocNo=jsonObject.getString("courierDocumentNo");
+			outwardCBoolean= 1 ;
+		}
+		
+	}
+
+	
 
 }

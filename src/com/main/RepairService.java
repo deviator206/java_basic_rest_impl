@@ -87,6 +87,7 @@ public class RepairService {
 		DeliverRepairRequestStatusImpl getRepairRequestStatusImpl = new DeliverRepairRequestStatusImpl();
 		getRepairRequestStatusImpl.setFinalPayment(finalTransaction.getJSONObject("paymentInfo"));
 		getRepairRequestStatusImpl.setServiceNumber(finalTransaction.getString("serviceNumber"));
+		getRepairRequestStatusImpl.setOutwardCourierInfo(finalTransaction.getJSONObject("courierOutwardInfo"));
 		getRepairRequestStatusImpl.executeFinalPayment();
 		return getRepairRequestStatusImpl.getInvoiceResult();
 	}

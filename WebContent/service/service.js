@@ -108,6 +108,9 @@ function($scope, $http, $modal, $log, customerSearch, productSearch, taxService,
 
     $scope.performServiceDelivery = function(){
         resetOtherPaymentTypes($scope.paymentInfo)
+        if($scope.serviceRequest.courierOutwardInfo.courierName !== "" || $scope.serviceRequest.courierOutwardInfo.courierDocumentNo !== ""  ||$scope.serviceRequest.courierOutwardInfo.courierPhone !== ""  ) {
+        	$scope.serviceRequest.courierOutwardInfo.isCourier = true;
+        }
         $scope.serviceRequest.paymentInfo = angular.copy($scope.paymentInfo);
         var postParam = angular.copy($scope.serviceRequest);
 
@@ -410,6 +413,15 @@ function($scope, $http, $modal, $log, customerSearch, productSearch, taxService,
         	return false;
         	
         }else {
+        	
+        	if (!$scope.serviceRequest.customerInfo.alternateNo || $scope.serviceRequest.customerInfo.alternateNo == "") {
+        		$scope.serviceRequest.customerInfo.alternateNo = "N/A";
+        	}
+        	
+        	if (!$scope.serviceRequest.customerInfo.email || $scope.serviceRequest.customerInfo.email == "") {
+        		$scope.serviceRequest.customerInfo.email = "N/A";
+        	}
+
         	customerService.dropProduct($scope.serviceRequest).then(function(response){
                 $scope.serviceResponse = response.data;
                 Util.openPrintPopUp($scope, 'service-drop');
