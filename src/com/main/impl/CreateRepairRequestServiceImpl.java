@@ -119,8 +119,8 @@ public class CreateRepairRequestServiceImpl extends ServiceBase {
 		if (customerInfo.getString("id") == null || customerInfo.getString("id").equals("")) {
 			// create customer
 			CustomerServiceImpl customerServiceImpl = new CustomerServiceImpl();
-			customerServiceImpl.setUserName(customerInfo.getString("name"));
-			customerServiceImpl.setUserAddress(customerInfo.getString("address"));
+			customerServiceImpl.setUserName(customerInfo.getString("name").toUpperCase());
+			customerServiceImpl.setUserAddress(customerInfo.getString("address").toUpperCase());
 			customerServiceImpl.setUserPhone(customerInfo.getString("phone"));
 			customerServiceImpl.setUserAlternatePhone(customerInfo.getString("alternateNo"));
 			customerServiceImpl.setUserEmail(customerInfo.getString("email"));
@@ -141,8 +141,8 @@ public class CreateRepairRequestServiceImpl extends ServiceBase {
 		for (int productLoop = 0; productLoop < this.productInfo.length(); productLoop++) {
 			JSONObject singleProduct = (JSONObject) this.productInfo.get(productLoop);
 			ps.setInt(1, customerValidID);
-			ps.setString(2, singleProduct.getString("name"));
-			ps.setString(3, singleProduct.getString("model"));
+			ps.setString(2, singleProduct.getString("name").toUpperCase());
+			ps.setString(3, singleProduct.getString("model").toUpperCase());
 			ps.setString(4, singleProduct.getString("sn"));
 			ps.setString(5, this.accList);
 			ps.setString(6, this.probList);

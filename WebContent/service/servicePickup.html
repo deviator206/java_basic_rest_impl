@@ -91,11 +91,11 @@
         <div class="panel panel-default height width-97">
             <div class="panel-heading">Observation</div>
             <div class="panel-body">
-                <strong>Nature of Complaints</strong>
-                <div ng-bind="serviceRequest.customerComment"></div>
-                <br>
                 <strong>Remark</strong>
-                <div ng-bind="serviceRequest.shopUserComment"></div>
+                <div ng-bind="serviceRequest.commentsInfo.shopkeeper"></div>
+                <br>
+                <strong>Nature of Complaints</strong>
+                <div ng-bind="serviceRequest.commentsInfo.customer"></div>
             </div>
         </div>       
       </div>
@@ -169,7 +169,7 @@
                             </tr>
                             <tr>
                                 <td>Advance Payment Made</td>
-                                <td>{{serviceRequest.advancePayment}}</td>
+                                <td>{{serviceRequest.paymentInfo.advancePayment}}</td>
                             </tr>
                             <tr>
                                 <td><label>Remaining Payment</label></td>
@@ -264,16 +264,25 @@
                                     </div>
                                 </div>
                             </div>                    
-                            <div class="row" ng-show="paymentInfo.paymentType === 'card' ">
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label class="control-label col-sm-3" for="card-cardNetwork">Card Network:</label>
-                                        <div class="col-sm-8">
-                                            <input autocomplete="off" ng-model="paymentInfo.card.bankName" type="text" class="form-control" 
-                                            id="card-cardNetwork" placeholder="E.g VISA, MasterCard .."/>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="row" ng-show="paymentInfo.paymentType === 'online' ">
+                               <div class="col-sm-6">
+			                        <div class="form-group">
+			                            <label class="control-label col-sm-3" for="online-amount">Amount:</label>
+			                            <div class="col-sm-8">
+			                                <input autocomplete="off" ng-model="paymentInfo.online.amount" type="text" class="form-control" 
+			                                id="online-amount" placeholder="Enter amount"/>
+			                            </div>
+			                        </div>
+			                    </div>
+			                    <div class="col-sm-6">
+			                        <div class="form-group">
+			                            <label class="control-label col-sm-3" for="online-payMode">Payment Mode:</label>
+			                            <div class="col-sm-8">
+			                                <input autocomplete="off" ng-model="paymentInfo.online.payMode" type="text" 
+			                                class="form-control" id="online-payMode" placeholder="E.g. PayTM, NEFT, UPI etc..."/>
+			                            </div>
+			                        </div>
+			                    </div>
                             </div>
                     </div>    
                 </div>  

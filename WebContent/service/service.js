@@ -133,6 +133,7 @@ function($scope, $http, $modal, $log, customerSearch, productSearch, taxService,
             $scope.paymentInfo.cash.amount = remainingAmmount;
             $scope.paymentInfo.card.amount = remainingAmmount;
             $scope.paymentInfo.cheq.amount = remainingAmmount;
+            $scope.paymentInfo.online.amount = remainingAmmount;
         }
         
         //console.log(remainingAmmount);
@@ -145,6 +146,7 @@ function($scope, $http, $modal, $log, customerSearch, productSearch, taxService,
         	advancePaymentMade += Util.toDecimalPrecision((data.cash && data.cash.amount)?data.cash.amount:0 );
             advancePaymentMade += Util.toDecimalPrecision((data.cash && data.card.amount)?data.card.amount:0 );
             advancePaymentMade += Util.toDecimalPrecision((data.cash && data.cheq.amount)?data.cheq.amount:0 );
+            advancePaymentMade += Util.toDecimalPrecision((data.advancePayment && data.advancePayment)?data.advancePayment:0 );
         return advancePaymentMade;
     }
     
@@ -153,6 +155,7 @@ function($scope, $http, $modal, $log, customerSearch, productSearch, taxService,
             advancePaymentMade += Util.toDecimalPrecision($scope.serviceRequest.paymentInfo.cash.amount || 0);
             advancePaymentMade += Util.toDecimalPrecision($scope.serviceRequest.paymentInfo.card.amount || 0);
             advancePaymentMade += Util.toDecimalPrecision($scope.serviceRequest.paymentInfo.cheq.amount || 0);
+           
         return advancePaymentMade;
     }
     
