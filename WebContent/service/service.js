@@ -404,7 +404,7 @@ function($scope, $http, $modal, $log, customerSearch, productSearch, taxService,
         $scope.serviceRequest.probList= $scope.prepareForServer($scope.serviceRequest.problemLists);
         
         if ($scope.serviceRequest.paymentInfo && $scope.serviceRequest.paymentInfo.additional_cash) {
-        	$scope.serviceRequest.paymentInfo.cash.amount = $scope.serviceRequest.paymentInfo.cash.amount + $scope.serviceRequest.paymentInfo.additional_cash
+        	$scope.serviceRequest.paymentInfo.cash.amount = Number($scope.serviceRequest.paymentInfo.cash.amount) + Number($scope.serviceRequest.paymentInfo.additional_cash)
         }
         
         if ($scope.productLogisticMode && $scope.productLogisticMode.logisticType && $scope.productLogisticMode.logisticType === 'courier'){
