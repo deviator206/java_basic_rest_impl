@@ -125,11 +125,11 @@
                                   <input type ="checkbox"  
                                         checklist-model="selectedProductList.itemsToDeliver" 
                                         checklist-value="item.id"
-                                        ng-disabled="isValidStateToAddToBill(item)"
-                                        >
-                                         <span class="in-table-data"> name: </span>{{item.name}}#{{item.model}}# {{item.sn}}<br/> 
-                                     <span class="in-table-data"> status:</span> {{serviceStatusMapping [item.serviceStatus]}} <br/>  
-                                     <span class="in-table-data"> sn:</span> {{item.sn}} <br/>
+                                        ng-disabled="isValidStateToAddToBill(item)" >
+                                         <span class="in-table-data">Name: </span>{{item.name}}<br/> 
+                                  	   <span class="in-table-data"> Status:</span> {{serviceStatusMapping [item.serviceStatus]}} <br/>  
+                                     <span class="in-table-data"> Model:</span> {{item.model}} <br/>
+                                     <span class="in-table-data"> SN::</span> {{item.sn}} <br/>
                                   
                                 </div>  
 

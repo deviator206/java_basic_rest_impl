@@ -91,11 +91,15 @@
             <table class="table table-bordered table-condensed invoice-margin">
                 <tr>
                     <th style="width:15%">Nature of Complaints</th>
-                    <td><div ng-bind="serviceRequest.commentsInfo.customer"></div></td>
+                    
+                    <td ng-if='serviceRequest.commentsInfo.customer'><div ng-bind="serviceRequest.commentsInfo.customer"></div></td>
+                    <td ng-if='serviceRequest.customerComment'><div ng-bind="serviceRequest.customerComment"></div></td>
                 </tr>
                 <tr>
                     <th>Remark</th>
-                    <td><div ng-bind="serviceRequest.commentsInfo.shopkeeper"></div></td>
+                    <td ng-if='serviceRequest.commentsInfo.customer'><div ng-bind="serviceRequest.commentsInfo.shopkeeper"></div></td>
+                    <td ng-if='serviceRequest.shopUserComment'><div ng-bind="serviceRequest.shopUserComment"></div></td>
+                    
                 </tr>
             </table>
        </div>
