@@ -3,6 +3,7 @@ package com.main.impl;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +22,9 @@ import com.main.models.UserInfo;
 public class GetRepairRequestStatusImpl extends CreateRepairRequestServiceImpl {
 	private String queryText="";
 	private String queryOnColumn="";
+	private String queryByType="";
+	private String queryStartFrom="";
+	private String queryStartTo="";
 	SearchRepairServiceResponse mainResponse = new SearchRepairServiceResponse();
 	public List<RepairRequestResponse> responseSearchResult;
 	private String serviceOrderStatusInput="";
@@ -80,19 +84,25 @@ public class GetRepairRequestStatusImpl extends CreateRepairRequestServiceImpl {
 		Statement stmt;
 		stmt = this.dbConnection.createStatement();
 		String query = "";
-		if ((this.queryText.equalsIgnoreCase("*") || this.queryText.equalsIgnoreCase("")) && customerId == 0) {
-			query = "select * from " + this.SERVICE_INFO_TABLE;
-			if (serviceOrderStatusInput != null && !serviceOrderStatusInput.isEmpty()){
-				query = "select * from " + this.SERVICE_INFO_TABLE +" where serviceStatus='"+serviceOrderStatusInput+"' ORDER BY id ASC ";
-			}
-		}
-		else {
-			query = "select * from " + this.SERVICE_INFO_TABLE + " where " + this.getColumnNameString(customerId);
-			if (serviceOrderStatusInput != null && !serviceOrderStatusInput.isEmpty()){
-				query = "select * from " + this.SERVICE_INFO_TABLE + " where " + this.getColumnNameString(customerId)+" AND  serviceStatus='"+serviceOrderStatusInput+"' ORDER BY id ASC";
-			}
-		}
 		
+		if (this.queryByType.equalsIgnoreCase("BY_QUERY")) {
+			
+		
+			if ((this.queryText.equalsIgnoreCase("*") || this.queryText.equalsIgnoreCase("")) && customerId == 0) {
+				query = "select * from " + this.SERVICE_INFO_TABLE +" ORDER BY id DESC";
+				if (serviceOrderStatusInput != null && !serviceOrderStatusInput.isEmpty()){
+					query = "select * from " + this.SERVICE_INFO_TABLE +" where serviceStatus='"+serviceOrderStatusInput+"' ORDER BY id DESC ";
+				}
+			}
+			else {
+				query = "select * from " + this.SERVICE_INFO_TABLE + " where " + this.getColumnNameString(customerId)+" ORDER BY id DESC";
+				if (serviceOrderStatusInput != null && !serviceOrderStatusInput.isEmpty()){
+					query = "select * from " + this.SERVICE_INFO_TABLE + " where " + this.getColumnNameString(customerId)+" AND  serviceStatus='"+serviceOrderStatusInput+"' ORDER BY id DESC";
+				}
+			}
+		} else if (this.queryByType.equalsIgnoreCase("BY_DATE")){
+			query = "select * from " + this.SERVICE_INFO_TABLE +" where service_order_date  BETWEEN '"+Timestamp.valueOf(this.queryStartFrom)+"' AND  '"+Timestamp.valueOf(this.queryStartTo)+"' ORDER BY id DESC";
+		}
 		
 		ResultSet rs = stmt.executeQuery(query);
 		while (rs.next()) {
@@ -242,4 +252,20 @@ public class GetRepairRequestStatusImpl extends CreateRepairRequestServiceImpl {
 		
 	}
 
+	public void setByType(String byType) {
+		// TODO Auto-generated method stub
+		queryByType =byType;
+	}
+
+	public void setStartTo(String startTo) {
+		// TODO Auto-generated method stub
+		this.queryStartTo = startTo; 
+	}
+
+	public void setStartFrom(String startFrom) {
+		// TODO Auto-generated method stub
+		queryStartFrom = startFrom;
+	}
+
+	
 }

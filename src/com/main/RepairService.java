@@ -58,11 +58,20 @@ public class RepairService {
 	@Path("pickup-by-customer")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public SearchRepairServiceResponse getRepairStatus(@QueryParam("query") String queryText,@QueryParam("col") String queryOnColumn) throws JSONException, InternalError, SQLException{
+	public SearchRepairServiceResponse getRepairStatus(@QueryParam("query") String queryText,
+													   @QueryParam("col") String queryOnColumn,
+													   @QueryParam("type") String byType,
+													   @QueryParam("startFrom") String startFrom,
+													   @QueryParam("startTo") String startTo
+			) throws JSONException, InternalError, SQLException{
 		
 		GetRepairRequestStatusImpl getRepairRequestStatusImpl = new GetRepairRequestStatusImpl();
 		getRepairRequestStatusImpl.setQueryText(queryText);
 		getRepairRequestStatusImpl.setQueryOnColumn(queryOnColumn);
+		getRepairRequestStatusImpl.setByType(byType);
+		getRepairRequestStatusImpl.setStartFrom(startFrom);
+		getRepairRequestStatusImpl.setStartTo(startTo);
+		
 		
 		getRepairRequestStatusImpl.execute();
 		return getRepairRequestStatusImpl.getSearchResult();

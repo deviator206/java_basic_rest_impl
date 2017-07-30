@@ -20,6 +20,10 @@
     <td class="col-xs-2"><span class="pull-right">Cheque Date.</span></td>
     <td class="col-xs-2"><span class="pull-left">:</span>&nbsp; <span>{{paymentInfo.cheq.cheqDate}}</span></td>
 </tr>
+<tr ng-if="paymentInfo.additional_cash !== ''">
+	<td class="col-xs-2">ADDITIONAL</td>
+    <td class="col-xs-8">{{paymentInfo.cash.amount +" INR"}}</td>
+</tr>
 </table>
 <table class="table table-condensed no-border invoice-margin" ng-if="paymentInfo.paymentType == 'card'">
 <tr>
@@ -36,6 +40,10 @@
     <td class="col-xs-2" ng-if="paymentInfo.card.cardNetwork !== ''"><span class="pull-right">Card Network</span></td>
     <td class="col-xs-2" ng-if="paymentInfo.card.cardNetwork !== ''" ><span class="pull-left">:</span>&nbsp; <span>{{paymentInfo.card.cardNetwork}}</span></td>
 </tr>
+<tr ng-if="paymentInfo.additional_cash !== ''">
+	<td class="col-xs-2">ADDITIONAL</td>
+    <td class="col-xs-8">{{paymentInfo.cash.amount +" INR"}}</td>
+</tr>
 </table>
 <table class="table table-condensed no-border invoice-margin" ng-if="paymentInfo.paymentType == 'online'">
 <tr>
@@ -50,5 +58,9 @@
     <td class="col-xs-3">&nbsp; {{paymentInfo.online.transactionID}}</td>
     <td class="col-xs-2" ng-if='paymentInfo.online.remark'>Reamrk:</td>
     <td class="col-xs-5">{{paymentInfo.online.remark}}</td>
+</tr>
+<tr ng-if="paymentInfo.additional_cash !== ''">
+	<td class="col-xs-2">ADDITIONAL</td>
+    <td class="col-xs-8">{{paymentInfo.cash.amount +" INR"}}</td>
 </tr>
 </table>
