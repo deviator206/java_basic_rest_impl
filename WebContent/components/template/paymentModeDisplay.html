@@ -21,7 +21,7 @@
     <td class="col-xs-2"><span class="pull-left">:</span>&nbsp; <span>{{paymentInfo.cheq.cheqDate}}</span></td>
 </tr>
 <tr ng-if="paymentInfo.additional_cash !== ''">
-	<td class="col-xs-2">ADDITIONAL</td>
+	<td class="col-xs-2">CASH</td>
     <td class="col-xs-8">{{paymentInfo.cash.amount +" INR"}}</td>
 </tr>
 </table>
@@ -41,13 +41,20 @@
     <td class="col-xs-2" ng-if="paymentInfo.card.cardNetwork !== ''" ><span class="pull-left">:</span>&nbsp; <span>{{paymentInfo.card.cardNetwork}}</span></td>
 </tr>
 <tr ng-if="paymentInfo.additional_cash !== ''">
-	<td class="col-xs-2">ADDITIONAL</td>
+	<td class="col-xs-2">CASH</td>
     <td class="col-xs-8">{{paymentInfo.cash.amount +" INR"}}</td>
 </tr>
 </table>
 <table class="table table-condensed no-border invoice-margin" ng-if="paymentInfo.paymentType == 'online'">
-<tr>
-    <td class="col-xs-2">Mode:</td>
+<tr ng-if="paymentInfo.paymentType == 'online'">
+	<b ng-if="paymentInfo.paymentType == 'online'">Paid</b>:Online||
+	<span ng-if="paymentInfo.online.amount"><b>Amount:</b>{{paymentInfo.online.amount +" INR "}} ||</span>
+	<span ng-if="paymentInfo.online.payMode"><b>Mode:</b>{{paymentInfo.online.payMode +" " }} ||</span>
+	<span ng-if="paymentInfo.online.transactionID"><b>Trans ID:</b>{{paymentInfo.online.transactionID +" "}}||</span>
+	<span ng-if="paymentInfo.online.remark"><b>Remark:</b>{{paymentInfo.online.remark + " "}}||</span>
+</tr>	
+	<!--
+	<td class="col-xs-2">Mode:</td>
     <td class="col-xs-3">&nbsp; Online</td>
     <td class="col-xs-2">{{paymentInfo.online.amount+" INR"}}</td>
     <td class="col-xs-2" ng-if='paymentInfo.online.payMode'>Medium:</td>
@@ -59,8 +66,10 @@
     <td class="col-xs-2" ng-if='paymentInfo.online.remark'>Reamrk:</td>
     <td class="col-xs-5">{{paymentInfo.online.remark}}</td>
 </tr>
-<tr ng-if="paymentInfo.additional_cash !== ''">
-	<td class="col-xs-2">ADDITIONAL</td>
+ -->
+ 
+<tr ng-if="paymentInfo.additional_cash && paymentInfo.additional_cash !== ''">
+	<td class="col-xs-2">CASH:</td>
     <td class="col-xs-8">{{paymentInfo.cash.amount +" INR"}}</td>
 </tr>
 </table>

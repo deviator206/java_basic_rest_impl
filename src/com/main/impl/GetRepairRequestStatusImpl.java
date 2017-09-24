@@ -217,7 +217,7 @@ public class GetRepairRequestStatusImpl extends CreateRepairRequestServiceImpl {
 		int customerId = 0;
 		totalIncome = 0;
 		
-		if (queryOnColumn.equalsIgnoreCase("CUSTOMER_PHONE") || queryOnColumn.equalsIgnoreCase("CUSTOMER_NAME")) {
+		if (queryOnColumn.equalsIgnoreCase("CUSTOMER_PHONE") || queryOnColumn.equalsIgnoreCase("CUSTOMER_NAME") && !this.queryText.equalsIgnoreCase("") ) {
 			Statement stmt1;
 			stmt1 = this.dbConnection.createStatement();
 			String query1 = "select * from EMP_CUSTOMER_TABLE where " + this.getCustomerInfoString();

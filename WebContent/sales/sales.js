@@ -7,7 +7,7 @@ angular.module('salesApp.sales', ['ngRoute' , 'smart-table', 'ui.bootstrap'])
       "address": "",
       "phone": ""
     };
-    $scope.receiptType = "TAX INVOICE";
+    $scope.receiptType = "Bill Of Supply";
     $scope.paymentInfo = Util.paymentInfoObj();
     
     $scope.date = new Date();
@@ -19,11 +19,7 @@ angular.module('salesApp.sales', ['ngRoute' , 'smart-table', 'ui.bootstrap'])
     $scope.salesResponseData = [];
     $scope.printPage = Util.printPage;
     $scope.taxTypes = [
-        {name: "VAT-1", value: "13.5"},
-        {name: "VAT-2", value: "5.5"},
-        {name: "VAT-3", value: "8.5"},
-        {name: "Service Tax", value: "13.5"},
-        {name: "NONE", value: "0"}
+        {name: "GST", value: "0"}
     ];
     
     $scope.taxTypeTotal = {};

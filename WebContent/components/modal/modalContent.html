@@ -41,8 +41,8 @@
                 <th>Qty</th>
                 <th>Price per Unit</th>
                 <th>Rate</th>
-                <th>Tax Type</th>
-                <th>Tax Amount</th>
+                <!--  <th>Tax Type</th>
+                <th>Tax Amount</th> -->
                 <th>Total Amount</th>
             </tr>
             </thead>
@@ -54,8 +54,8 @@
                 <td><span class="pull-right">{{row.quantity}}</span></td>
                 <td><span class="pull-right">{{row.price}}</span></td>
                 <td><span class="pull-right">{{row.totalPrice}}</span></td>
-                <td><span class="pull-right">{{row.taxType}} ({{row.taxValue}}%)</span></td>
-                <td><span class="pull-right">{{row.taxAmmount}}</span></td>
+                <!--  <td><span class="pull-right">{{row.taxType}} ({{row.taxValue}}%)</span></td>
+                <td><span class="pull-right">{{row.taxAmmount}}</span></td>-->
                 <td><span class="pull-right">{{row.grandTotal}}</span></td>
             </tr>
             </tbody>
@@ -67,8 +67,8 @@
                 <th></th>
                 <th></th>
                 <th><span class="pull-right">{{productTotal.totalPrice}}</span></th>
-                <th></th>
-                <th><span class="pull-right">{{productTotal.taxAmmount}}</span></th>
+                <!--<th></th>
+                 <th><span class="pull-right">{{productTotal.taxAmmount}}</span></th> -->
                 <th><span class="pull-right">{{productTotal.grandTotal}}</span></th>
             </tr>
             </tfoot>
@@ -78,13 +78,13 @@
     
     <div class="row">
         <div class="col-xs-12">
-            <table class="table table-condensed no-border invoice-margin">
+            <!-- <table class="table table-condensed no-border invoice-margin">
                 <tr>
                     <td class="col-xs-2"><span class="pull-left">VAT Tin No.</span> <span class="pull-right">:</span></td>
                     <td class="col-xs-2">&nbsp; {{salesResponseData.vatTinNumber}}</td>
                     <td class="col-xs-8"></td>
                 </tr>
-            </table>
+            </table> -->
             <div ng-include="'components/template/paymentModeDisplay.html'"></div>
             </div>
     </div>
@@ -94,7 +94,7 @@
             <div>
                 <table class="table table-bordered">
                     <tr>
-                        <td id="td-terms-contents" style="width:50%">"I/We" hereby certify that my/our registration certificate  under the Maharashtra Value Added Tax Act, 2002 is in force on the date on which the sale of the goods specified in this tax invoice is made by me/us and that the transaction of sale covered by this tax invoice has been effected by me/us and it shall be accounted for in the turnover of sales while filing of return  and the due tax, if any, payable on the sale has been paid or shall be paid</td>
+                        <td id="td-terms-contents" style="width:50%">Composition Taxable Person. Not Eligible to Collect Tax on Supplies</td>
                         <td id="td-signature-contents" style="width:50%">
                              <div style="text-align:center">(Authorised Signature)</div>
                         

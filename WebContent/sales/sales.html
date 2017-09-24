@@ -189,7 +189,7 @@
 
       </div>  
       </div>
-      <div class="form-group col-sm-1 ">
+      <div class="form-group col-sm-2 ">
       <div class="col-sm-12">
         <label for="current-product-quantity">Quantity</label>
             <input autocomplete="off" type="number" class="form-control" ng-model="curentProduct.quantity" 
@@ -209,7 +209,8 @@
             <span class="errMsg" ng-show="salesForm.currentProductPrice.$touched && salesForm.currentProductPrice.$error.required">Enter price</span>            
        </div> 
       </div>
-      <div class="form-group col-sm-2 ">
+      
+      <!-- <div class="form-group col-sm-2 ">
       <div>
             <label for="current-product-taxType">Tax Type</label>
             <select id="current-product-taxType" ng-enter="addProduct();setFocusTo('currentProductName')" ng-model="curentProduct.taxType" 
@@ -217,8 +218,8 @@
                 <option ng-repeat="x in taxTypes" value="{{x.name}}">{{x.name}}({{x.value}}%)</option>
             </select>
       </div>  
-      </div>
-      <div class="form-group col-sm-1 ">
+      </div>  -->
+      <div class="form-group col-sm-2 ">
       <div class="col-sm-12">
         <label for="current-product-add">.</label>
             <button  ng-disabled="!isValidProductInfoforAdd()" id="current-product-add" type="button" 
@@ -242,9 +243,10 @@
                 <th style="width:20%">Particulars</th>
                 <th style="width:20%">serial No</th>
                 <th style="width:5%">Qty</th>
-                <th style="width:15%">Rate</th>
+                <th style="width:15%">Rate</th> 
+                <!-- 
                 <th style="width:15%">Tax Type</th>
-                <th style="width:10%">Tax Amount</th>
+                <th style="width:10%">Tax Amount</th> -->
                 <th style="width:10%">Total Amount</th>
                 <th></th>
             </tr>
@@ -252,12 +254,13 @@
             <tbody>
             <tr ng-repeat="row in selectedProducts">
                 <td>{{$index+1}}</td>
-                <td>{{row.name}}</td>
+                <td>name:{{row.name}}<br/><span ng-if="(row.model != '')">model :{{row.model}}</span></td>
                 <td>{{row.sn}}</td>
                 <td><span class="pull-right">{{row.quantity}}</span></td>
                 <td><span class="pull-right">{{row.totalPrice}}</span></td>
+               <!-- 
                 <td>{{row.taxType}} ({{row.taxValue}}%)</td>
-                <td><span class="pull-right">{{row.taxAmmount}}</span></td>
+                <td><span class="pull-right">{{row.taxAmmount}}</span></td> -->
                 <td><span class="pull-right">{{row.grandTotal}}</span></td>
                 <td>
                     <button type="button" ng-click="removeRow(row)" class="btn btn-sm btn-danger">
@@ -273,13 +276,14 @@
                 <th></th>
                 <th><span class="pull-right">{{productTotal.totalPrice}}</span></th>
                 
-                <th colspan="2">
+                 <!--  <th colspan="2">
                     <div class="pull-right">{{productTotal.taxAmmount}}</div>
                     <hr>
                     <div class="pull-right">
                     <div style="font-weight:normal" ng-repeat="x in taxTypeTotal">{{x.taxType}} ({{x.taxRate}}%) - {{x.taxAmmount.toFixed(2)}}</div>                
                     </div>
-                </th>
+                </th> -->
+                
                 <th><span class="pull-right">{{productTotal.grandTotal}}</span></th>
                 <th></th>
             </tr>

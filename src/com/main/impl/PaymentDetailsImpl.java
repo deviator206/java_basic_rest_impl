@@ -116,6 +116,19 @@ public class PaymentDetailsImpl extends ServiceBase{
 				preparedStmt.setString(5, this.invoiceInformation.get("vatTinNumber"));
 				
 				
+			}else if(this.paymentInfo.getString("type").equalsIgnoreCase("ONLINE")) {
+				//insert into PAYMENT_DETAILS_TABLE(cheqNo,cheqDate,bankName,invoice_id,invoice_tin) values ('345678093218','12/6/2017','SBI','CE/2017-18/6','2763039355V');
+				query = "insert into "+this.PAYMENT_TABLE+"("+this.COL_CHEQ_NO+",onlinePaymentMode,onlineTransactionId,onlineRemark,"+this.COL_TIN+","+this.COL_AMOUNT+") values (?,?,?,?,?,?)";
+				// ("+this.paymentInfo.getString("cheqNo")+","+this.paymentInfo.getString("cheqDate")+","+this.paymentInfo.getString("bankName")+","+this.invoiceInformation.get("invoice")+","+this.invoiceInformation.get("vatTinNumber")+")
+				preparedStmt =  this.dbConnection.prepareStatement(query);
+				preparedStmt.setString(1, this.paymentInfo.getString("payMode"));
+				preparedStmt.setString(2, this.paymentInfo.getString("transactionId"));
+				preparedStmt.setString(3, this.paymentInfo.getString("remark"));
+				preparedStmt.setFloat(6, this.paymentInfo.getInt("amount"));
+				preparedStmt.setString(4, this.invoiceInformation.get("invoice"));
+				preparedStmt.setString(5, this.invoiceInformation.get("vatTinNumber"));
+				
+				
 			}
 		return preparedStmt;
 	}
