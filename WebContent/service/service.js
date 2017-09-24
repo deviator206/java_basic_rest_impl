@@ -4,7 +4,8 @@ angular.module('salesApp.service', ['ngRoute' , 'smart-table', 'ui.bootstrap'])
                             'taxService', 'Util', 'Validation', 'customerService', 'pageMode', '$routeParams', '$timeout', 'customerSearchFactory' ,
 function($scope, $http, $modal, $log, customerSearch, productSearch, taxService, Util, Validation, customerService, pageMode, $routeParams, $timeout, customerSearchFactory) {
     console.log(pageMode);
-    $scope.receiptType = "RECEIPT";    
+    $scope.receiptType = "ESTIMATE";    
+    $scope.receiptXtraName = "NAIK "
     $scope.pageMode = pageMode;    
     $scope.taxTypes = taxService.getTaxListService();
     $scope.problemLists = ["Dust In View Finder", "Scratches on Focusing Screen", "Salt Water Damage", "Water Damage", "Fungus in Binocular", "Scratch on Body"];
@@ -54,6 +55,7 @@ function($scope, $http, $modal, $log, customerSearch, productSearch, taxService,
     $scope.initServiceDelivery = function(){
         //setDummyProduct();
         //console.log($routeParams);
+    	$scope.receiptXtraName = "NAIK "
         $scope.receiptType = "RECEIPT";    
         mapHashChangeToMenuUpdate();
         var requestParams = {};

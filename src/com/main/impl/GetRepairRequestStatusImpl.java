@@ -85,7 +85,7 @@ public class GetRepairRequestStatusImpl extends CreateRepairRequestServiceImpl {
 		stmt = this.dbConnection.createStatement();
 		String query = "";
 		
-		if (this.queryByType.equalsIgnoreCase("BY_QUERY")) {
+		if (this.queryByType != null && this.queryByType.equalsIgnoreCase("BY_QUERY")) {
 			
 		
 			if ((this.queryText.equalsIgnoreCase("*") || this.queryText.equalsIgnoreCase("")) && customerId == 0) {
@@ -100,8 +100,38 @@ public class GetRepairRequestStatusImpl extends CreateRepairRequestServiceImpl {
 					query = "select * from " + this.SERVICE_INFO_TABLE + " where " + this.getColumnNameString(customerId)+" AND  serviceStatus='"+serviceOrderStatusInput+"' ORDER BY id DESC";
 				}
 			}
-		} else if (this.queryByType.equalsIgnoreCase("BY_DATE")){
+		} else if (this.queryByType != null && this.queryByType.equalsIgnoreCase("BY_DATE")){
 			query = "select * from " + this.SERVICE_INFO_TABLE +" where service_order_date  BETWEEN '"+Timestamp.valueOf(this.queryStartFrom)+"' AND  '"+Timestamp.valueOf(this.queryStartTo)+"' ORDER BY id DESC";
+		}else if (this.queryByType == null) {
+			this.queryByType = "";
+			if ((this.queryText.equalsIgnoreCase("*") || this.queryText.equalsIgnoreCase("")) && customerId == 0) {
+				query = "select * from " + this.SERVICE_INFO_TABLE +" ORDER BY id DESC";
+				if (serviceOrderStatusInput != null && !serviceOrderStatusInput.isEmpty()){
+					query = "select * from " + this.SERVICE_INFO_TABLE +" where serviceStatus='"+serviceOrderStatusInput+"' ORDER BY id DESC ";
+				}
+			}
+			else {
+				query = "select * from " + this.SERVICE_INFO_TABLE + " where " + this.getColumnNameString(customerId)+" ORDER BY id DESC";
+				if (serviceOrderStatusInput != null && !serviceOrderStatusInput.isEmpty()){
+					query = "select * from " + this.SERVICE_INFO_TABLE + " where " + this.getColumnNameString(customerId)+" AND  serviceStatus='"+serviceOrderStatusInput+"' ORDER BY id DESC";
+				}
+			}
+			
+		}else if (this.queryByType != null) {
+			this.queryByType = "";
+			if ((this.queryText.equalsIgnoreCase("*") || this.queryText.equalsIgnoreCase("")) && customerId == 0) {
+				query = "select * from " + this.SERVICE_INFO_TABLE +" ORDER BY id DESC";
+				if (serviceOrderStatusInput != null && !serviceOrderStatusInput.isEmpty()){
+					query = "select * from " + this.SERVICE_INFO_TABLE +" where serviceStatus='"+serviceOrderStatusInput+"' ORDER BY id DESC ";
+				}
+			}
+			else {
+				query = "select * from " + this.SERVICE_INFO_TABLE + " where " + this.getColumnNameString(customerId)+" ORDER BY id DESC";
+				if (serviceOrderStatusInput != null && !serviceOrderStatusInput.isEmpty()){
+					query = "select * from " + this.SERVICE_INFO_TABLE + " where " + this.getColumnNameString(customerId)+" AND  serviceStatus='"+serviceOrderStatusInput+"' ORDER BY id DESC";
+				}
+			}
+			
 		}
 		
 		ResultSet rs = stmt.executeQuery(query);

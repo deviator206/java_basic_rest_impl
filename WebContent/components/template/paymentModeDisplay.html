@@ -47,11 +47,11 @@
 </table>
 <table class="table table-condensed no-border invoice-margin" ng-if="paymentInfo.paymentType == 'online'">
 <tr ng-if="paymentInfo.paymentType == 'online'">
-	<b ng-if="paymentInfo.paymentType == 'online'">Paid</b>:Online||
-	<span ng-if="paymentInfo.online.amount"><b>Amount:</b>{{paymentInfo.online.amount +" INR "}} ||</span>
-	<span ng-if="paymentInfo.online.payMode"><b>Mode:</b>{{paymentInfo.online.payMode +" " }} ||</span>
-	<span ng-if="paymentInfo.online.transactionID"><b>Trans ID:</b>{{paymentInfo.online.transactionID +" "}}||</span>
-	<span ng-if="paymentInfo.online.remark"><b>Remark:</b>{{paymentInfo.online.remark + " "}}||</span>
+	<b ng-if="paymentInfo.paymentType == 'online' && paymentInfo.paymentType == 'online'">Paid:Online||</b>
+	<span ng-if="paymentInfo.paymentType == 'online' && paymentInfo.online.amount"><b>Amount:</b>{{paymentInfo.online.amount +" INR "}} ||</span>
+	<span ng-if="paymentInfo.paymentType == 'online' && paymentInfo.online.payMode"><b>Mode:</b>{{paymentInfo.online.payMode +" " }} ||</span>
+	<span ng-if="paymentInfo.paymentType == 'online' && paymentInfo.online.transactionID"><b>Trans ID:</b>{{paymentInfo.online.transactionID +" "}}||</span>
+	<span ng-if="paymentInfo.paymentType == 'online' && paymentInfo.online.remark"><b>Remark:</b>{{paymentInfo.online.remark + " "}}||</span>
 </tr>	
 	<!--
 	<td class="col-xs-2">Mode:</td>
